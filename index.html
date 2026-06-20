@@ -53,12 +53,31 @@ hr { border: none; height: 1px; background: #ddd; margin: 32px 0; }
 img { max-width: 100%; border-radius: 6px; margin: 14px 0; }
 ::selection { background: #dbeafe; }
 @media (max-width: 768px) {
-  .sidebar { display: none; }
+  .sidebar {
+    display: block; transform: translateX(-100%);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,.3); }
   .main { margin-left: 0; padding: 24px; }
+  .menu-toggle {
+    position: fixed; top: 12px; left: 12px; z-index: 110;
+    width: 36px; height: 36px; border: none; border-radius: 6px;
+    background: #1e1e1e; color: #bbb; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; line-height: 1;
+  }
+  .menu-toggle:hover { background: #333; }
+  .sidebar-overlay {
+    display: none; position: fixed; inset: 0; z-index: 99;
+    background: rgba(0,0,0,.4);
+  }
+  .sidebar-overlay.open { display: block; }
 }
 </style>
 </head>
 <body>
+<button class="menu-toggle" id="menuToggle" aria-label="Открыть меню">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 <nav class="sidebar" id="sidebar">
 <h2>Учебник по Processing</h2>
 <a href="#1-введение-в-processing"><span class="ch-num">Введение</span>Введение в Processing</a>
@@ -2793,5 +2812,21 @@ void mouseClicked() {
 <p>Помните: лучший способ научиться программировать — практиковаться. Экспериментируйте, модифицируйте примеры, придумывайте свои проекты!</p>
 
 </main>
+<script>
+const toggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebarOverlay');
+function toggleMenu() {
+  const open = sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+  toggle.textContent = open ? '✕' : '☰';
+  toggle.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+}
+toggle.addEventListener('click', toggleMenu);
+overlay.addEventListener('click', toggleMenu);
+sidebar.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  if (window.innerWidth <= 768) toggleMenu();
+}));
+</script>
 </body>
 </html>
