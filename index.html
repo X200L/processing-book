@@ -1,0 +1,2797 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Учебник по Processing</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 16px; line-height: 1.7; color: #2c2c2c; background: #fafafa;
+  display: flex;
+}
+.sidebar {
+  position: fixed; top: 0; left: 0; width: 260px; height: 100vh;
+  background: #1e1e1e; color: #bbb; overflow-y: auto; z-index: 100;
+  padding: 24px 0;
+}
+.sidebar h2 { color: #f0f0f0; font-size: 14px; font-weight: 600; padding: 0 20px 16px; border-bottom: 1px solid #333; margin-bottom: 8px; letter-spacing: .5px; text-transform: uppercase; }
+.sidebar a { display: block; padding: 5px 20px; color: #999; text-decoration: none; font-size: 13px; transition: color .15s; }
+.sidebar a:hover { color: #fff; }
+.sidebar .ch-num { color: #888; margin-right: 6px; font-weight: 500; font-size: 11px; }
+.main { margin-left: 260px; flex: 1; max-width: 860px; padding: 48px 56px 96px; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; color: #1a1a1a; letter-spacing: -.5px; }
+h2 { font-size: 22px; font-weight: 600; margin: 40px 0 12px; color: #1a1a1a; letter-spacing: -.3px; }
+h3 { font-size: 17px; font-weight: 600; margin: 28px 0 8px; color: #333; }
+p { margin-bottom: 14px; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul, ol { margin: 8px 0 14px 22px; }
+li { margin-bottom: 4px; }
+code { font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Courier New', monospace; font-size: 13.5px; }
+p code, li code { background: #eee; padding: 2px 6px; border-radius: 4px; color: #c7254e; font-size: 13px; }
+pre {
+  background: #1c1c1c; color: #d4d4d4; padding: 16px 20px; border-radius: 6px;
+  overflow-x: auto; font-size: 13px; line-height: 1.55; margin: 14px 0 18px;
+  tab-size: 2; position: relative;
+}
+pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+pre .lang-badge {
+  position: absolute; top: 7px; right: 12px; font-size: 10px;
+  text-transform: uppercase; color: #666; letter-spacing: 1px;
+}
+table { border-collapse: collapse; width: 100%; margin: 14px 0 18px; font-size: 14px; }
+th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+th { background: #f5f5f5; font-weight: 600; color: #1a1a1a; }
+tr:nth-child(even) { background: #fafafa; }
+details { margin: 18px 0; background: #f7f7f7; border-radius: 6px; padding: 2px 16px 12px; border: 1px solid #eaeaea; }
+summary { cursor: pointer; font-weight: 600; color: #1a1a1a; padding: 10px 0; font-size: 15px; }
+details ol { margin-top: 8px; }
+details li { margin-bottom: 8px; }
+hr { border: none; height: 1px; background: #ddd; margin: 32px 0; }
+img { max-width: 100%; border-radius: 6px; margin: 14px 0; }
+::selection { background: #dbeafe; }
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; padding: 24px; }
+}
+</style>
+</head>
+<body>
+<nav class="sidebar" id="sidebar">
+<h2>Учебник по Processing</h2>
+<a href="#1-введение-в-processing"><span class="ch-num">Введение</span>Введение в Processing</a>
+<a href="#2-установка-и-настройка"><span class="ch-num">Установка</span>Установка и настройка</a>
+<a href="#3-основы-синтаксиса"><span class="ch-num">Основы</span>Основы синтаксиса</a>
+<a href="#4-переменные-и-типы-данных"><span class="ch-num">Переменные</span>Переменные и типы данных</a>
+<a href="#5-условные-операторы"><span class="ch-num">Условные</span>Условные операторы</a>
+<a href="#6-циклы"><span class="ch-num">Циклы</span>Циклы</a>
+<a href="#7-функции"><span class="ch-num">Функции</span>Функции</a>
+<a href="#8-массивы"><span class="ch-num">Массивы</span>Массивы</a>
+<a href="#9-система-координат-и-трансформации"><span class="ch-num">Система</span>Система координат и трансформации</a>
+<a href="#10-случайные-числа"><span class="ch-num">Случайные</span>Случайные числа</a>
+<a href="#11-анимация-и-время"><span class="ch-num">Анимация</span>Анимация и время</a>
+<a href="#12-работа-с-цветом"><span class="ch-num">Работа</span>Работа с цветом</a>
+<a href="#13-обработка-событий-мыши-и-клавиатуры"><span class="ch-num">Обработка</span>Обработка событий мыши и клавиатуры</a>
+<a href="#14-текст-и-шрифты"><span class="ch-num">Текст</span>Текст и шрифты</a>
+<a href="#15-создание-оконных-приложений"><span class="ch-num">Создание</span>Создание оконных приложений</a>
+<a href="#16-классы-и-объекты-ооп"><span class="ch-num">Классы</span>Классы и объекты (ООП)</a>
+<a href="#17-векторы-и-pvector"><span class="ch-num">Векторы</span>Векторы и PVector</a>
+<a href="#18-работа-с-изображениями"><span class="ch-num">Работа</span>Работа с изображениями</a>
+<a href="#19-сохранение-и-загрузка-данных"><span class="ch-num">Сохранение</span>Сохранение и загрузка данных</a>
+<a href="#20-основы-processing--arduino"><span class="ch-num">Основы</span>Основы Processing + Arduino</a>
+<a href="#21-продвинутые-проекты-processing--arduino"><span class="ch-num">Продвинутые</span>Продвинутые проекты Processing + Arduino</a>
+<a href="#22-итоговый-проект-paint"><span class="ch-num">Итоговый</span>Итоговый проект: Paint</a>
+<a href="#23-заключение"><span class="ch-num">Заключение</span>Заключение</a>
+</nav>
+<main class="main">
+<h1>Учебник по Processing</h1>
+<h2 id="оглавление">Оглавление</h2>
+<ol>
+  <li><a href="#1-введение-в-processing">Введение в Processing</a></li>
+  <li><a href="#2-установка-и-настройка">Установка и настройка</a></li>
+  <li><a href="#3-основы-синтаксиса">Основы синтаксиса</a></li>
+  <li><a href="#4-переменные-и-типы-данных">Переменные и типы данных</a></li>
+  <li><a href="#5-условные-операторы">Условные операторы</a></li>
+  <li><a href="#6-циклы">Циклы</a></li>
+  <li><a href="#7-функции">Функции</a></li>
+  <li><a href="#8-массивы">Массивы</a></li>
+  <li><a href="#9-система-координат-и-трансформации">Система координат и трансформации</a></li>
+  <li><a href="#10-случайные-числа">Случайные числа</a></li>
+  <li><a href="#11-анимация-и-время">Анимация и время</a></li>
+  <li><a href="#12-работа-с-цветом">Работа с цветом</a></li>
+  <li><a href="#13-обработка-событий-мыши-и-клавиатуры">Обработка событий мыши и клавиатуры</a></li>
+  <li><a href="#14-текст-и-шрифты">Текст и шрифты</a></li>
+  <li><a href="#15-создание-оконных-приложений">Создание оконных приложений</a></li>
+  <li><a href="#16-классы-и-объекты-ооп">Классы и объекты (ООП)</a></li>
+  <li><a href="#17-векторы-и-pvector">Векторы и PVector</a></li>
+  <li><a href="#18-работа-с-изображениями">Работа с изображениями</a></li>
+  <li><a href="#19-сохранение-и-загрузка-данных">Сохранение и загрузка данных</a></li>
+  <li><a href="#20-основы-processing--arduino">Основы Processing + Arduino</a></li>
+  <li><a href="#21-продвинутые-проекты-processing--arduino">Продвинутые проекты Processing + Arduino</a></li>
+  <li><a href="#22-итоговый-проект-paint">Итоговый проект: Paint</a></li>
+  <li><a href="#23-заключение">Заключение</a></li>
+</ol>
+<h2 id="1-введение-в-processing">1. Введение в Processing</h2>
+<p><strong>Processing</strong> — открытый язык программирования, основанный на Java. Представляет собой лёгкий и быстрый инструментарий для создания изображений, анимации и разработки интерфейсов.</p>
+<p>Processing используется студентами, художниками, дизайнерами и исследователями для изучения программирования, прототипирования и создания визуальных проектов. Его главное преимущество — минимальный порог входа: вы можете нарисовать первую фигуру буквально в трёх строках кода.</p>
+<h3>Зачем изучать Processing?</h3>
+<ul>
+  <li><strong>Визуальная обратная связь</strong> — результат каждой команды виден сразу на экране.</li>
+  <li><strong>Простой синтаксис</strong> — основан на Java, но гораздо дружелюбнее к новичкам.</li>
+  <li><strong>Широкие возможности</strong> — от простых рисунков до сложной анимации и взаимодействия с внешними устройствами.</li>
+  <li><strong>Активное сообщество</strong> — тысячи примеров и библиотек.</li>
+</ul>
+<h3>Связь с Arduino</h3>
+<p>Если вы уже знакомы с Arduino, то заметите много общего. Это не случайно: именно Processing послужил вдохновением для создателей Arduino. Среда разработки Arduino IDE построена на основе Processing IDE, а язык Wiring (на котором пишут для Arduino) основан на Processing.</p>
+<p>Подробное руководство по подключению и совместной работе — в главах <a href="#20-основы-processing--arduino">20</a> и <a href="#21-продвинутые-проекты-processing--arduino">21</a> этого учебника.</p>
+<details>
+<summary>Упражнения к разделу 1</summary>
+<p>1. <strong>Вопрос.</strong> Какие задачи можно решать с помощью Processing? Приведите три примера.</p>
+<p>2. <strong>Вопрос.</strong> Чем Processing отличается от «обычных» языков программирования вроде Java или Python?</p>
+<p>3. <strong>Вопрос.</strong> Почему Processing и Arduino так похожи?</p>
+</details>
+<h2 id="2-установка-и-настройка">2. Установка и настройка</h2>
+<p>На момент написания учебника актуальна версия Processing 4, поэтому мы будем использовать именно её.</p>
+<h3>Шаг 1: Скачивание</h3>
+<ul>
+  <li>Перейдите на <a href="https://processing.org/download/">официальный сайт Processing</a> и скачайте версию для вашей операционной системы.</li>
+</ul>
+<h3>Шаг 2: Установка</h3>
+<ul>
+  <li><strong>Windows</strong>: запустите установщик <code>.exe</code>.</li>
+  <li><strong>macOS</strong>: откройте <code>.dmg</code> и перетащите Processing в папку <code>Программы</code>.</li>
+  <li><strong>Linux</strong>: распакуйте архив и запустите файл <code>processing</code>.</li>
+</ul>
+<h3>Шаг 3: Запуск</h3>
+<p>Запустите приложение. Перед вами откроется редактор с пустым файлом:</p>
+<pre><code>  [ Toolbar ]
+  [ Text Editor ]  &lt;- здесь пишем код
+  [ Console ]      &lt;- сюда выводятся сообщения</code></pre>
+<p>Среда разработки Processing минималистична: кнопки «Запустить» и «Стоп», редактор кода и консоль.</p>
+<h3>Структура скетча</h3>
+<p>Скетч (программа на Processing) состоит минимум из двух функций:</p>
+<ul>
+  <li><code>setup()</code> — вызывается один раз при старте (настройки).</li>
+  <li><code>draw()</code> — вызывается в бесконечном цикле (рисование и анимация).</li>
+</ul>
+<details>
+<summary>Упражнения к разделу 2</summary>
+<p>1. <strong>Практика.</strong> Скачайте и установите Processing. Создайте новый скетч и запустите его (пустой скетч должен показать серое окно).</p>
+<p>2. <strong>Практика.</strong> Найдите в среде кнопки «Run» и «Stop». Напишите в консоли <code>println("Hello, Processing!");</code> внутри <code>setup()</code> и запустите.</p>
+</details>
+<h2 id="3-основы-синтаксиса">3. Основы синтаксиса</h2>
+<h3>3.1 Функция `setup()`</h3>
+<p>Функция <code>setup()</code> вызывается один раз при запуске программы. Здесь устанавливаются начальные параметры.</p>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(800, 600);    // Установка размера окна
+  background(255);   // Установка белого фона
+}</code></pre>
+<p>Команда <code>size(width, height)</code> задаёт размер окна. Если её не вызвать, окно будет размером 100×100.</p>
+<h3>3.2 Функция `draw()`</h3>
+<p>Функция <code>draw()</code> вызывается в цикле примерно 60 раз в секунду. Именно здесь происходит всё рисование и обновление экрана.</p>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);                         // Очистка фона
+  fill(0);                                 // Установка чёрного цвета заливки
+  ellipse(mouseX, mouseY, 50, 50);         // Рисование круга в позиции мыши
+}</code></pre>
+<p>Если не вызывать <code>background()</code> внутри <code>draw()</code>, предыдущие рисунки останутся на экране — это можно использовать для создания «следов».</p>
+<h3>3.3 Рисование базовых фигур</h3>
+<p>Processing предоставляет простые команды для рисования форм:</p>
+<table>
+  <tr>
+    <th>Команда</th>
+    <th>Описание</th>
+  </tr>
+  <tr>
+    <td><code>line(x1, y1, x2, y2)</code></td>
+    <td>Линия от точки (x1, y1) до (x2, y2)</td>
+  </tr>
+  <tr>
+    <td><code>rect(x, y, w, h)</code></td>
+    <td>Прямоугольник с верхним левым углом в (x, y)</td>
+  </tr>
+  <tr>
+    <td><code>ellipse(x, y, w, h)</code></td>
+    <td>Эллипс с центром в (x, y)</td>
+  </tr>
+  <tr>
+    <td><code>triangle(x1, y1, x2, y2, x3, y3)</code></td>
+    <td>Треугольник по трём вершинам</td>
+  </tr>
+  <tr>
+    <td><code>point(x, y)</code></td>
+    <td>Точка</td>
+  </tr>
+  <tr>
+    <td><code>quad(x1, y1, x2, y2, x3, y3, x4, y4)</code></td>
+    <td>Четырёхугольник</td>
+  </tr>
+  <tr>
+    <td><code>arc(x, y, w, h, start, stop)</code></td>
+    <td>Дуга</td>
+  </tr>
+</table>
+<h3>Пример рисования</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 400);
+}
+
+void draw() {
+  background(255);
+
+  fill(150, 0, 0);
+  rect(50, 50, 100, 100);          // Красный квадрат
+
+  fill(0, 150, 0);
+  ellipse(200, 200, 100, 100);     // Зелёный круг
+
+  fill(0, 0, 150);
+  triangle(300, 50, 350, 150, 250, 150);  // Синий треугольник
+}</code></pre>
+<h3>3.4 Настройка обводки</h3>
+<p>Для управления обводкой фигур используются команды:</p>
+<ul>
+  <li><code>stroke(r, g, b)</code> — цвет линии/обводки.</li>
+  <li><code>strokeWeight(толщина)</code> — толщина линии.</li>
+  <li><code>noStroke()</code> — отключить обводку.</li>
+</ul>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  stroke(255, 0, 0);    // Красная обводка
+  strokeWeight(5);      // Толщина 5 пикселей
+  fill(200);
+  rect(50, 50, 100, 100);
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 3</summary>
+<p>1. <strong>Практика.</strong> Нарисуйте домик: квадрат (стены), треугольник (крыша), прямоугольник (дверь) и два маленьких квадрата (окна).</p>
+<p>2. <strong>Практика.</strong> Нарисуйте светофор: три круга (красный, жёлтый, зелёный) друг под другом в прямоугольнике.</p>
+<p>3. <strong>Практика.</strong> Используя <code>line()</code>, нарисуйте звезду (пятиконечную) в центре экрана.</p>
+</details>
+<h2 id="4-переменные-и-типы-данных">4. Переменные и типы данных</h2>
+<p>Переменные хранят значения, которые могут меняться во время работы программы.</p>
+<h3>4.1 Типы данных</h3>
+<p>Processing поддерживает те же типы, что и Java:</p>
+<table>
+  <tr>
+    <th>Тип</th>
+    <th>Описание</th>
+    <th>Пример</th>
+  </tr>
+  <tr>
+    <td><code>int</code></td>
+    <td>Целое число</td>
+    <td><code>int x = 10;</code></td>
+  </tr>
+  <tr>
+    <td><code>float</code></td>
+    <td>Число с плавающей точкой</td>
+    <td><code>float pi = 3.14;</code></td>
+  </tr>
+  <tr>
+    <td><code>boolean</code></td>
+    <td>Логическое значение (true/false)</td>
+    <td><code>boolean flag = true;</code></td>
+  </tr>
+  <tr>
+    <td><code>char</code></td>
+    <td>Один символ</td>
+    <td><code>char letter = 'A';</code></td>
+  </tr>
+  <tr>
+    <td><code>String</code></td>
+    <td>Строка текста</td>
+    <td><code>String name = "Processing";</code></td>
+  </tr>
+  <tr>
+    <td><code>color</code></td>
+    <td>Цвет</td>
+    <td><code>color c = color(255, 0, 0);</code></td>
+  </tr>
+</table>
+<h3>4.2 Объявление и инициализация</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  int x = 100;               // Объявление + инициализация
+  float y;                   // Только объявление
+  y = 200.5;                 // Инициализация позже
+
+  String greeting = "Привет!";
+  println(greeting + " x = " + x);
+}</code></pre>
+<h3>4.3 Встроенные системные переменные</h3>
+<p>Processing предоставляет готовые переменные:</p>
+<ul>
+  <li><code>width</code>, <code>height</code> — ширина и высота окна.</li>
+  <li><code>mouseX</code>, <code>mouseY</code> — текущие координаты мыши.</li>
+  <li><code>pmouseX</code>, <code>pmouseY</code> — предыдущие координаты мыши.</li>
+  <li><code>frameCount</code> — количество прошедших кадров.</li>
+  <li><code>frameRate</code> — частота кадров (кадров/сек).</li>
+</ul>
+<h3>4.4 Область видимости (scope)</h3>
+<p>Переменные, объявленные вне функций, видны во всём скетче (глобальные). Переменные внутри функции видны только в ней.</p>
+<pre><span class="lang-badge">java</span><code>int globalX = 200;  // Глобальная переменная
+
+void setup() {
+  int localY = 50;  // Локальная переменная
+  println(globalX); // ✅ Доступна
+  println(localY);  // ✅ Доступна
+}
+
+void draw() {
+  println(globalX); // ✅ Доступна
+  println(localY);  // ❌ Ошибка! localY не видна здесь
+}</code></pre>
+<h3>4.5 Математические операции</h3>
+<pre><span class="lang-badge">java</span><code>int a = 10 + 5;    // Сложение
+int b = 10 - 5;    // Вычитание
+int c = 10 * 5;    // Умножение
+int d = 10 / 5;    // Деление (целочисленное для int)
+float e = 10.0 / 3.0; // Деление (вещественное)
+int f = 10 % 3;    // Остаток от деления (1)</code></pre>
+<p>Полезные встроенные функции:</p>
+<ul>
+  <li><code>map(value, fromLow, fromHigh, toLow, toHigh)</code> — переводит число из одного диапазона в другой.</li>
+  <li><code>constrain(value, min, max)</code> — ограничивает значение диапазоном.</li>
+  <li><code>dist(x1, y1, x2, y2)</code> — расстояние между двумя точками.</li>
+  <li><code>lerp(a, b, t)</code> — линейная интерполяция.</li>
+</ul>
+<details>
+<summary>Упражнения к разделу 4</summary>
+<p>1. <strong>Практика.</strong> Объявите переменные для x и y круга. Заставьте круг двигаться по диагонали, увеличивая x и y на 1 каждый кадр.</p>
+<p>2. <strong>Практика.</strong> Используя <code>map()</code>, сделайте так, чтобы круг следовал за мышью по X, но с отображением диапазона 0–width в диапазон 0–255 (цвет).</p>
+<p>3. <strong>Практика.</strong> Нарисуйте две точки и выведите на экран расстояние между ними, используя <code>dist()</code>.</p>
+</details>
+<h2 id="5-условные-операторы">5. Условные операторы</h2>
+<p>Условные операторы позволяют выполнять код в зависимости от выполнения условий.</p>
+<h3>5.1 `if`, `else if`, `else`</h3>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+
+  if (mouseX &lt; width / 3) {
+    fill(255, 0, 0);        // Красный, если мышь в левой трети
+  } else if (mouseX &lt; 2 * width / 3) {
+    fill(0, 255, 0);        // Зелёный, если мышь в центре
+  } else {
+    fill(0, 0, 255);        // Синий, если мышь в правой трети
+  }
+
+  ellipse(mouseX, height / 2, 100, 100);
+}</code></pre>
+<h3>5.2 Логические операторы</h3>
+<ul>
+  <li><code>&amp;&amp;</code> — логическое И (оба условия истинны)</li>
+  <li><code>||</code> — логическое ИЛИ (хотя бы одно истинно)</li>
+  <li><code>!</code> — логическое НЕ (отрицание)</li>
+</ul>
+<pre><span class="lang-badge">java</span><code>// Круг зелёный только если мышь в квадрате 200×200 в центре
+if (mouseX &gt; 100 &amp;&amp; mouseX &lt; 300 &amp;&amp; mouseY &gt; 100 &amp;&amp; mouseY &lt; 300) {
+  fill(0, 255, 0);
+} else {
+  fill(255, 0, 0);
+}
+ellipse(width / 2, height / 2, 100, 100);</code></pre>
+<h3>5.3 Операторы сравнения</h3>
+<table>
+  <tr>
+    <th>Оператор</th>
+    <th>Значение</th>
+  </tr>
+  <tr>
+    <td><code>==</code></td>
+    <td>Равно</td>
+  </tr>
+  <tr>
+    <td><code>!=</code></td>
+    <td>Не равно</td>
+  </tr>
+  <tr>
+    <td><code>&lt;</code></td>
+    <td>Меньше</td>
+  </tr>
+  <tr>
+    <td><code>&gt;</code></td>
+    <td>Больше</td>
+  </tr>
+  <tr>
+    <td><code>&lt;=</code></td>
+    <td>Меньше или равно</td>
+  </tr>
+  <tr>
+    <td><code>&gt;=</code></td>
+    <td>Больше или равно</td>
+  </tr>
+</table>
+<details>
+<summary>Упражнения к разделу 5</summary>
+<p>1. <strong>Практика.</strong> Нарисуйте квадрат, который меняет цвет при наведении мыши (проверяйте попадание курсора внутрь квадрата).</p>
+<p>2. <strong>Практика.</strong> Сделайте программу, которая выводит «Утро», «День», «Вечер» или «Ночь» в зависимости от значения <code>hour()</code>.</p>
+<p>3. <strong>Практика.</strong> Нарисуйте «тепловую карту»: цвет фона плавно меняется от синего к красному в зависимости от расстояния от мыши до центра экрана. Используйте <code>dist()</code> и <code>map()</code>.</p>
+</details>
+<h2 id="6-циклы">6. Циклы</h2>
+<p>Циклы позволяют повторять действия многократно без дублирования кода.</p>
+<h3>6.1 `for`</h3>
+<p>Используется, когда известно количество повторений.</p>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+
+  // Рисуем 10 кругов по горизонтали
+  for (int i = 0; i &lt; 10; i++) {
+    float x = map(i, 0, 9, 50, width - 50);
+    ellipse(x, height / 2, 40, 40);
+  }
+}</code></pre>
+<h3>6.2 `while`</h3>
+<p>Используется, когда количество повторений заранее неизвестно.</p>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+  int i = 0;
+  while (i &lt; 10) {
+    float x = map(i, 0, 9, 50, width - 50);
+    ellipse(x, height / 2, 40, 40);
+    i++;
+  }
+}</code></pre>
+<h3>6.3 Вложенные циклы</h3>
+<p>Очень полезны для создания сеток и таблиц.</p>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+
+  for (int row = 0; row &lt; 5; row++) {
+    for (int col = 0; col &lt; 8; col++) {
+      float x = map(col, 0, 7, 40, width - 40);
+      float y = map(row, 0, 4, 40, height - 40);
+      fill(col * 30, row * 50, 150);
+      rect(x, y, 30, 30);
+    }
+  }
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 6</summary>
+<p>1. <strong>Практика.</strong> Используя цикл <code>for</code>, нарисуйте линейку с делениями от 0 до 100 по горизонтали (каждое деление — линия высотой 10 пикселей, каждое десятое — 20 пикселей).</p>
+<p>2. <strong>Практика.</strong> Вложенными циклами нарисуйте шахматную доску 8×8 (чередование чёрных и белых квадратов).</p>
+<p>3. <strong>Практика.</strong> Нарисуйте 100 кругов со случайными координатами и размерами (используйте <code>random()</code> внутри цикла).</p>
+</details>
+<h2 id="7-функции">7. Функции</h2>
+<p>Функции помогают организовать код и избежать повторений.</p>
+<h3>7.1 Создание своей функции</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 400);
+}
+
+void draw() {
+  background(255);
+  drawFlower(100, 100, 30);
+  drawFlower(300, 200, 50);
+  drawFlower(200, 300, 40);
+}
+
+// Своя функция: рисует цветок в позиции (x, y)
+void drawFlower(float x, float y, float size) {
+  fill(255, 255, 0);
+  ellipse(x, y, size, size);           // Центр
+
+  fill(255, 100, 100);
+  for (int i = 0; i &lt; 5; i++) {
+    float angle = TWO_PI / 5 * i;
+    float px = x + cos(angle) * size;
+    float py = y + sin(angle) * size;
+    ellipse(px, py, size * 0.6, size * 0.6);  // Лепестки
+  }
+}</code></pre>
+<h3>7.2 Функции с возвращаемым значением</h3>
+<p>Функция может не только выполнять действия, но и возвращать результат.</p>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+  float speed = calculateSpeed(mouseX, mouseY);
+  ellipse(mouseX, mouseY, 20 + speed, 20 + speed);
+}
+
+float calculateSpeed(float x, float y) {
+  float centerDist = dist(x, y, width / 2, height / 2);
+  return map(centerDist, 0, width / 2, 1, 10);
+}</code></pre>
+<h3>7.3 Параметры по умолчанию (перегрузка функций)</h3>
+<p>В Java/Processing можно создавать несколько функций с одинаковым именем, но разными параметрами.</p>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  setColor();          // Установит цвет по умолчанию
+  setColor(255, 0, 0); // Установит красный
+}
+
+void setColor() {
+  fill(128);
+}
+
+void setColor(int r, int g, int b) {
+  fill(r, g, b);
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 7</summary>
+<p>1. <strong>Практика.</strong> Напишите функцию <code>drawHouse(x, y, size)</code>, которая рисует домик. Вызовите её несколько раз в разных местах экрана с разными размерами.</p>
+<p>2. <strong>Практика.</strong> Напишите функцию <code>float temperatureToColor(float temp)</code>, которая принимает температуру (0–100) и возвращает цвет от синего (0) до красного (100). Используйте <code>map()</code> и <code>lerpColor()</code>.</p>
+</details>
+<h2 id="8-массивы">8. Массивы</h2>
+<p>Массивы позволяют хранить множество значений одного типа под одним именем.</p>
+<h3>8.1 Создание и заполнение</h3>
+<pre><span class="lang-badge">java</span><code>int[] numbers = new int[5];          // Массив из 5 элементов
+numbers[0] = 10;
+numbers[1] = 20;
+numbers[2] = 30;
+numbers[3] = 40;
+numbers[4] = 50;
+
+// Короткая запись
+int[] values = { 10, 20, 30, 40, 50 };
+
+float[] randoms = new float[100];
+for (int i = 0; i &lt; randoms.length; i++) {
+  randoms[i] = random(255);
+}</code></pre>
+<h3>8.2 Использование массива в анимации</h3>
+<p>Массивы идеально подходят для хранения множества объектов (частиц, точек, шариков).</p>
+<pre><span class="lang-badge">java</span><code>float[] x = new float[50];
+float[] y = new float[50];
+float[] speeds = new float[50];
+
+void setup() {
+  size(600, 400);
+  for (int i = 0; i &lt; x.length; i++) {
+    x[i] = random(width);
+    y[i] = random(height);
+    speeds[i] = random(1, 5);
+  }
+}
+
+void draw() {
+  background(255);
+  for (int i = 0; i &lt; x.length; i++) {
+    y[i] += speeds[i];
+    if (y[i] &gt; height) y[i] = 0;
+    ellipse(x[i], y[i], 10, 10);
+  }
+}</code></pre>
+<h3>8.3 Двумерные массивы</h3>
+<pre><span class="lang-badge">java</span><code>int[][] grid = new int[8][8];
+
+void setup() {
+  size(400, 400);
+  for (int i = 0; i &lt; 8; i++) {
+    for (int j = 0; j &lt; 8; j++) {
+      grid[i][j] = (i + j) % 2 == 0 ? 255 : 0;
+    }
+  }
+}
+
+void draw() {
+  for (int i = 0; i &lt; 8; i++) {
+    for (int j = 0; j &lt; 8; j++) {
+      fill(grid[i][j]);
+      rect(i * 50, j * 50, 50, 50);
+    }
+  }
+}</code></pre>
+<h3>8.4 ArrayList — динамический массив</h3>
+<p>Когда количество элементов заранее неизвестно, удобнее использовать <code>ArrayList</code>.</p>
+<pre><span class="lang-badge">java</span><code>import java.util.ArrayList;
+
+ArrayList&lt;Float&gt; values = new ArrayList&lt;Float&gt;();
+
+void draw() {
+  values.add(mouseX);
+  if (values.size() &gt; 100) {
+    values.remove(0);
+  }
+
+  background(255);
+  for (int i = 0; i &lt; values.size(); i++) {
+    ellipse(values.get(i), height / 2, 5, 5);
+  }
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 8</summary>
+<p>1. <strong>Практика.</strong> Создайте массив из 20 «снежинок» (кружков), которые падают сверху вниз с разными скоростями. Когда снежинка достигает низа, она появляется наверху.</p>
+<p>2. <strong>Практика.</strong> Используя двумерный массив, создайте игру «Жизнь» Конвея или просто нарисуйте шахматную доску, где клетки перекрашиваются случайным образом каждые 30 кадров.</p>
+</details>
+<h2 id="9-система-координат-и-трансформации">9. Система координат и трансформации</h2>
+<h3>9.1 Система координат</h3>
+<p>В Processing начало координат (0, 0) находится в <strong>верхнем левом</strong> углу. Ось X направлена вправо, ось Y — вниз.</p>
+<pre><code>(0,0) ──────────► X
+  │
+  │
+  ▼
+  Y</code></pre>
+<h3>9.2 `pushMatrix()` и `popMatrix()`</h3>
+<p>Эти команды сохраняют и восстанавливают текущую систему координат. Они позволяют временно перемещать, вращать и масштабировать отдельные объекты, не влияя на остальной рисунок.</p>
+<h3>9.3 `translate()`, `rotate()`, `scale()`</h3>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+
+  // Рисуем квадрат без трансформации
+  fill(200);
+  rect(0, 0, 50, 50);
+
+  pushMatrix();
+  translate(100, 100);     // Сдвигаем начало координат
+  rotate(radians(45));     // Поворачиваем на 45 градусов
+  scale(1.5);              // Увеличиваем в 1.5 раза
+  fill(255, 0, 0);
+  rect(0, 0, 50, 50);      // Рисуем в новой системе координат
+  popMatrix();
+
+  // Этот квадрат не зависит от трансформаций выше
+  fill(0, 255, 0);
+  rect(100, 200, 50, 50);
+}</code></pre>
+<h3>9.4 Анимация вращения</h3>
+<pre><span class="lang-badge">java</span><code>float angle = 0;
+
+void draw() {
+  background(255);
+
+  pushMatrix();
+  translate(width / 2, height / 2);
+  rotate(angle);
+  rectMode(CENTER);
+  fill(100, 150, 255);
+  rect(0, 0, 100, 100);
+  popMatrix();
+
+  angle += 0.02;
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 9</summary>
+<p>1. <strong>Практика.</strong> Используя <code>pushMatrix()</code> / <code>popMatrix()</code> и <code>rotate()</code>, создайте анимированные часы со стрелками (часовая, минутная, секундная).</p>
+<p>2. <strong>Практика.</strong> Нарисуйте «снежинку» из 6 лучей, используя <code>rotate()</code> и цикл внутри <code>pushMatrix()</code> / <code>popMatrix()</code>.</p>
+</details>
+<h2 id="10-случайные-числа">10. Случайные числа</h2>
+<h3>10.1 `random()`</h3>
+<p>Функция <code>random()</code> возвращает случайное число.</p>
+<pre><span class="lang-badge">java</span><code>float r = random(100);          // Случайное число от 0 до 100
+float r2 = random(50, 100);     // Случайное число от 50 до 100
+int r3 = (int) random(10);      // Случайное целое от 0 до 9</code></pre>
+<h3>10.2 Пример: случайные круги</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(600, 400);
+  background(255);
+  noLoop();  // Остановить draw() после первого кадра
+}
+
+void draw() {
+  for (int i = 0; i &lt; 100; i++) {
+    float x = random(width);
+    float y = random(height);
+    float r = random(10, 50);
+    fill(random(255), random(255), random(255), random(100, 200));
+    noStroke();
+    ellipse(x, y, r, r);
+  }
+}</code></pre>
+<h3>10.3 Функция `noise()`</h3>
+<p>Для более естественных, плавных случайных значений используется шум Перлина:</p>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 400);
+}
+
+void draw() {
+  float n = noise(frameCount * 0.01);  // Плавное случайное значение от 0 до 1
+  float x = map(n, 0, 1, 0, width);
+  ellipse(x, height / 2, 20, 20);
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 10</summary>
+<p>1. <strong>Практика.</strong> Создайте программу, которая в случайных местах экрана рисует разноцветные круги случайного размера. При нажатии на пробел экран очищается.</p>
+<p>2. <strong>Практика.</strong> Используя шум Перлина <code>noise()</code>, создайте плавно движущуюся точку, которая имитирует полёт мухи.</p>
+</details>
+<h2 id="11-анимация-и-время">11. Анимация и время</h2>
+<h3>11.1 `frameCount`</h3>
+<p>Счётчик кадров — увеличивается на 1 каждый вызов <code>draw()</code>.</p>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+  float x = (frameCount * 2) % width;  // Движение слева направо
+  ellipse(x, height / 2, 30, 30);
+}</code></pre>
+<h3>11.2 `millis()`</h3>
+<p>Возвращает количество миллисекунд, прошедших с запуска.</p>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+
+  float t = millis() / 1000.0;  // Время в секундах
+  float x = map(sin(t), -1, 1, 50, width - 50);
+
+  fill(255, 0, 0);
+  ellipse(x, height / 2, 40, 40);
+
+  fill(0);
+  text("Время: " + nf(t, 0, 1) + " сек", 20, 30);
+}</code></pre>
+<h3>11.3 Sin и Cos для плавных движений</h3>
+<pre><span class="lang-badge">java</span><code>float angle = 0;
+
+void draw() {
+  background(255);
+
+  // Плавное движение по кругу
+  float x = width / 2 + cos(angle) * 150;
+  float y = height / 2 + sin(angle) * 150;
+
+  fill(100, 150, 255);
+  ellipse(x, y, 40, 40);
+
+  angle += 0.02;
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 11</summary>
+<p>1. <strong>Практика.</strong> Сделайте анимацию: шарик отскакивает от стенок. Используйте переменные <code>speedX</code>, <code>speedY</code> и проверку границ.</p>
+<p>2. <strong>Практика.</strong> Используя <code>sin()</code>, создайте анимацию, где круг плавно изменяет размер (пульсирует) и цвет от красного к синему.</p>
+</details>
+<h2 id="12-работа-с-цветом">12. Работа с цветом</h2>
+<h3>12.1 Цветовые модели</h3>
+<p>Processing поддерживает несколько цветовых моделей. По умолчанию используется <strong>RGB</strong> (Red, Green, Blue) со значениями от 0 до 255.</p>
+<pre><span class="lang-badge">java</span><code>fill(255, 0, 0);       // Красный (R=255, G=0, B=0)
+fill(0, 255, 0);       // Зелёный
+fill(0, 0, 255);       // Синий
+fill(255, 255, 0);     // Жёлтый
+fill(128, 128, 128);   // Серый</code></pre>
+<h3>12.2 Прозрачность (альфа-канал)</h3>
+<p>Четвёртый параметр задаёт прозрачность (0 — полностью прозрачный, 255 — полностью непрозрачный):</p>
+<pre><span class="lang-badge">java</span><code>fill(255, 0, 0, 100);   // Полупрозрачный красный
+fill(0, 0, 255, 50);    // Очень прозрачный синий</code></pre>
+<h3>12.3 `colorMode()`</h3>
+<p>Можно переключиться в режим HSB (Hue, Saturation, Brightness):</p>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 400);
+  colorMode(HSB, 360, 100, 100);  // H: 0-360, S: 0-100, B: 0-100
+}
+
+void draw() {
+  background(200);
+  for (int i = 0; i &lt; 360; i += 10) {
+    fill(i, 80, 100);
+    rect(i * (width / 360.0), 0, width / 36.0, height);
+  }
+}</code></pre>
+<h3>12.4 `lerpColor()`</h3>
+<p>Плавный переход между двумя цветами:</p>
+<pre><span class="lang-badge">java</span><code>color c1 = color(255, 0, 0);
+color c2 = color(0, 0, 255);
+
+void draw() {
+  float t = map(mouseX, 0, width, 0, 1);
+  color current = lerpColor(c1, c2, t);
+  background(current);
+
+  fill(0);
+  text("Смешение: " + nf(t, 0, 2), 20, 30);
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 12</summary>
+<p>1. <strong>Практика.</strong> Нарисуйте несколько кругов, частично перекрывающих друг друга, каждый со своей прозрачностью. Посмотрите, как цвета смешиваются.</p>
+</details>
+<h2 id="13-обработка-событий-мыши-и-клавиатуры">13. Обработка событий мыши и клавиатуры</h2>
+<h3>13.1 Мышь</h3>
+<p>Processing предоставляет несколько встроенных функций и переменных для работы с мышью.</p>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 400);
+}
+
+void draw() {
+  background(255);
+  ellipse(mouseX, mouseY, 30, 30);
+}
+
+void mousePressed() {
+  println("Мышь нажата в (" + mouseX + ", " + mouseY + ")");
+}
+
+void mouseReleased() {
+  println("Мышь отпущена");
+}
+
+void mouseClicked() {
+  println("Клик!");
+}
+
+void mouseDragged() {
+  println("Перетаскивание...");
+}
+
+void mouseMoved() {
+  println("Движение мыши");
+}
+
+void mouseWheel(MouseEvent event) {
+  float delta = event.getCount();
+  println("Колесико: " + delta);
+}</code></pre>
+<h3>13.2 Клавиатура</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 400);
+}
+
+void draw() {
+  // Рисование зависит от нажатой клавиши
+  if (keyPressed) {
+    fill(255, 0, 0);
+    text("Нажата: " + key, 20, 30);
+  }
+}
+
+void keyPressed() {
+  println("Клавиша нажата: " + key + " (код: " + keyCode + ")");
+
+  if (key == 'r') {
+    background(255, 0, 0);
+  } else if (key == 'g') {
+    background(0, 255, 0);
+  } else if (key == 'b') {
+    background(0, 0, 255);
+  } else if (keyCode == UP) {
+    println("Стрелка вверх!");
+  }
+}
+
+void keyReleased() {
+  println("Клавиша отпущена");
+}</code></pre>
+<h3>13.3 Практический пример: клавиатурный Paint</h3>
+<pre><span class="lang-badge">java</span><code>float brushSize = 10;
+color brushColor = color(0);
+
+void setup() {
+  size(600, 400);
+  background(255);
+}
+
+void draw() {
+  if (mousePressed) {
+    stroke(brushColor);
+    strokeWeight(brushSize);
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}
+
+void keyPressed() {
+  if (key == '1') brushColor = color(255, 0, 0);
+  if (key == '2') brushColor = color(0, 255, 0);
+  if (key == '3') brushColor = color(0, 0, 255);
+  if (key == '+') brushSize += 2;
+  if (key == '-') brushSize = max(1, brushSize - 2);
+  if (key == ' ') background(255);  // Очистка
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 13</summary>
+<p>1. <strong>Практика.</strong> Сделайте программу, где кружок двигается стрелками клавиатуры (UP, DOWN, LEFT, RIGHT).</p>
+<p>2. <strong>Практика.</strong> Сделайте программу «Крестики-нолики» с рисованием по клику мыши. (Достаточно просто ставить X и O в клетки по очереди.)</p>
+</details>
+<h2 id="14-текст-и-шрифты">14. Текст и шрифты</h2>
+<p>Работа с текстом — важная часть любого приложения. Processing предоставляет гибкие инструменты для вывода и форматирования текста.</p>
+<h3>14.1 Вывод текста: `text()`</h3>
+<p>Базовый вывод текста осуществляется функцией <code>text()</code>:</p>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 200);
+  background(255);
+}
+
+void draw() {
+  background(255);
+  fill(0);
+  text("Привет, Processing!", 20, 100);
+}</code></pre>
+<p>Функция <code>text()</code> принимает строку и координаты (x, y), где <strong>y</strong> — это базовая линия (baseline) текста.</p>
+<h3>14.2 Размер и настройки текста</h3>
+<ul>
+  <li><code>textSize(size)</code> — задаёт размер шрифта в пикселях.</li>
+  <li><code>textLeading(value)</code> — межстрочный интервал.</li>
+  <li><code>textMode(MODEL)</code> или <code>textMode(SHAPE)</code> — режим отрисовки.</li>
+</ul>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+  textSize(16);
+  text("Маленький текст", 20, 50);
+
+  textSize(32);
+  text("Средний текст", 20, 100);
+
+  textSize(48);
+  fill(100, 100, 255);
+  text("Крупный текст", 20, 160);
+}</code></pre>
+<h3>14.3 Выравнивание текста: `textAlign()`</h3>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+  stroke(200);
+  line(width / 2, 0, width / 2, height);
+
+  textSize(20);
+
+  textAlign(LEFT);
+  text("LEFT", width / 2, 40);
+
+  textAlign(CENTER);
+  text("CENTER", width / 2, 80);
+
+  textAlign(RIGHT);
+  text("RIGHT", width / 2, 120);
+
+  textAlign(CENTER, TOP);
+  text("TOP", width / 2, 160);
+
+  textAlign(CENTER, CENTER);
+  text("CENTER", width / 2, 200);
+
+  textAlign(CENTER, BOTTOM);
+  text("BOTTOM", width / 2, 240);
+}</code></pre>
+<h3>14.4 Ширина и высота текста</h3>
+<ul>
+  <li><code>textWidth(string)</code> — возвращает ширину строки в пикселях.</li>
+  <li><code>textAscent()</code> — высота символов над baseline.</li>
+  <li><code>textDescent()</code> — высота символов под baseline.</li>
+</ul>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+  textSize(24);
+
+  String msg = "Processing";
+  float tw = textWidth(msg);
+
+  fill(200, 200, 255);
+  rect(20, 50, tw, textAscent() + textDescent());
+
+  fill(0);
+  text(msg, 20, 50 + textAscent());
+
+  fill(255, 200, 200);
+  float boxX = 200, boxY = 150, boxW = 150, boxH = 40;
+  rect(boxX, boxY, boxW, boxH);
+
+  fill(0);
+  textAlign(CENTER, CENTER);
+  textSize(16);
+  text("Центр", boxX + boxW / 2, boxY + boxH / 2);
+}</code></pre>
+<h3>14.5 Работа со шрифтами</h3>
+<p>Processing по умолчанию использует шрифт sans-serif. Для загрузки своих шрифтов:</p>
+<pre><span class="lang-badge">java</span><code>PFont myFont;
+
+void setup() {
+  size(400, 200);
+  myFont = createFont("Arial", 24);
+  textFont(myFont);
+}
+
+void draw() {
+  background(255);
+  fill(0);
+  text("Текст с Arial", 20, 100);
+}</code></pre>
+<p>Чтобы использовать шрифт из файла <code>.ttf</code>, поместите его в папку <code>data</code> скетча и загрузите: <code>createFont("Minecraftia.ttf", 24)</code>.</p>
+<p>Просмотр доступных шрифтов:</p>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  String[] fonts = PFont.list();
+  println(fonts);
+}</code></pre>
+<h3>14.6 Форматирование чисел</h3>
+<table>
+  <tr>
+    <th>Функция</th>
+    <th>Описание</th>
+    <th>Пример</th>
+  </tr>
+  <tr>
+    <td><code>nf(n, d, p)</code></td>
+    <td>Число с фиксированным кол-вом цифр</td>
+    <td><code>nf(3.14, 2, 1)</code> → <code>"03.1"</code></td>
+  </tr>
+  <tr>
+    <td><code>nfc(n, p)</code></td>
+    <td>Число с разделителями разрядов</td>
+    <td><code>nfc(12345, 2)</code> → <code>"12,345.00"</code></td>
+  </tr>
+  <tr>
+    <td><code>nfp(n, d, p)</code></td>
+    <td>Число со знаком <code>+</code></td>
+    <td><code>nfp(5, 2, 0)</code> → <code>"+05"</code></td>
+  </tr>
+  <tr>
+    <td><code>nfs(n, d, p)</code></td>
+    <td>Число с пробелом перед полож.</td>
+    <td><code>nfs(5, 2, 0)</code> → <code>" 05"</code></td>
+  </tr>
+</table>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+  textSize(16);
+
+  float val = mouseX * 0.1;
+
+  text("raw:     " + val, 20, 40);
+  text("nf:      " + nf(val, 3, 2), 20, 70);
+  text("nfc:     " + nfc(val, 2), 20, 100);
+  text("nfp:     " + nfp(val, 3, 2), 20, 130);
+}</code></pre>
+<h3>14.7 Многострочный текст</h3>
+<p>Processing поддерживает автоматический перенос слов, если указать ширину области:</p>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+  fill(0);
+  textSize(16);
+
+  String t = "Это длинный текст, который будет автоматически разбит на несколько строк, если указать ширину области.";
+  text(t, 20, 40, 300, 200);  // bounding box: ширина 300, высота 200
+}</code></pre>
+<p>Четвёртый и пятый параметры <code>text()</code> задают ширину и высоту области.</p>
+<h3>14.8 Стили шрифта</h3>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  background(255);
+
+  PFont boldFont = createFont("Arial-Bold", 20);
+  textFont(boldFont);
+  fill(0);
+  text("Жирный текст", 20, 50);
+
+  PFont italicFont = createFont("Arial-Italic", 20);
+  textFont(italicFont);
+  text("Курсивный текст", 20, 100);
+
+  PFont boldItalicFont = createFont("Arial-BoldItalic", 20);
+  textFont(boldItalicFont);
+  text("Жирный курсив", 20, 150);
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 14</summary>
+<p>1. <strong>Практика.</strong> Напишите программу «Счётчик кликов»: при каждом клике мыши число на экране увеличивается. Используйте <code>textAlign(CENTER, CENTER)</code>, чтобы текст был по центру.</p>
+<p>2. <strong>Практика.</strong> Выведите координаты мыши в формате <code>X: 0420, Y: 0300</code> (всегда 4 цифры, используйте <code>nf()</code>).</p>
+<p>3. <strong>Практика.</strong> Напишите программу, которая выводит случайную цитату из массива строк при нажатии пробела. Текст должен автоматически переноситься.</p>
+</details>
+<h2 id="15-создание-оконных-приложений">15. Создание оконных приложений</h2>
+<p>Processing позволяет не только рисовать графику, но и создавать полноценные оконные приложения с элементами интерфейса.</p>
+<h3>15.1 Управление окном через `surface`</h3>
+<p>Объект <code>surface</code> предоставляет доступ к свойствам окна:</p>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 300);
+
+  surface.setTitle("Моё приложение");
+  surface.setResizable(true);
+  surface.setLocation(100, 100);
+}
+
+void draw() {
+  background(255);
+  fill(0);
+  text("Размер окна: " + width + "×" + height, 20, 40);
+}</code></pre>
+<h3>15.2 Полный экран и режимы</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  fullScreen();                         // Полный экран
+  // fullScreen(1);                     // Второй монитор
+  // fullScreen(P2D);                   // 2D-рендерер
+
+  surface.setTitle("Fullscreen App");
+}
+
+void draw() {
+  background(0);
+  fill(255);
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text("Fullscreen Mode", width / 2, height / 2);
+  textSize(16);
+  text("Нажми ESC для выхода", width / 2, height / 2 + 40);
+}</code></pre>
+<ul>
+  <li><code>windowMove(x, y)</code> — переместить окно.</li>
+  <li><code>windowResizable(true/false)</code> — разрешить/запретить изменение размера.</li>
+  <li><code>noSmooth()</code> — отключить сглаживание (для пиксель-арта).</li>
+</ul>
+<h3>15.3 Создание кнопок (без библиотек)</h3>
+<pre><span class="lang-badge">java</span><code>boolean button1Pressed = false;
+boolean button2Pressed = false;
+
+void setup() {
+  size(400, 300);
+  surface.setTitle("Кнопки");
+}
+
+void draw() {
+  background(240);
+
+  drawButton(50, 100, 120, 50, "Кнопка 1", button1Pressed);
+  drawButton(230, 100, 120, 50, "Кнопка 2", button2Pressed);
+
+  fill(0);
+  textSize(16);
+  text("Кнопка 1: " + (button1Pressed ? "ВКЛ" : "ВЫКЛ"), 50, 240);
+  text("Кнопка 2: " + (button2Pressed ? "ВКЛ" : "ВЫКЛ"), 50, 270);
+}
+
+void drawButton(int x, int y, int w, int h, String label, boolean pressed) {
+  if (pressed) {
+    fill(150, 200, 255);
+    stroke(100, 150, 200);
+  } else {
+    fill(220);
+    stroke(180);
+  }
+  strokeWeight(2);
+  rect(x, y, w, h, 5);
+
+  fill(pressed ? 0 : 50);
+  textAlign(CENTER, CENTER);
+  textSize(16);
+  text(label, x + w / 2, y + h / 2);
+}
+
+void mousePressed() {
+  if (isInside(mouseX, mouseY, 50, 100, 120, 50)) {
+    button1Pressed = !button1Pressed;
+  }
+  if (isInside(mouseX, mouseY, 230, 100, 120, 50)) {
+    button2Pressed = !button2Pressed;
+  }
+}
+
+boolean isInside(int mx, int my, int x, int y, int w, int h) {
+  return mx &gt; x &amp;&amp; mx &lt; x + w &amp;&amp; my &gt; y &amp;&amp; my &lt; y + h;
+}</code></pre>
+<h3>15.4 Создание слайдера (без библиотек)</h3>
+<pre><span class="lang-badge">java</span><code>int sliderX = 300;
+int sliderMin = 50, sliderMax = 350;
+boolean dragging = false;
+
+void setup() {
+  size(400, 200);
+  surface.setTitle("Слайдер");
+}
+
+void draw() {
+  background(240);
+
+  fill(200);
+  rect(50, 80, 300, 10, 5);
+
+  fill(100, 150, 255);
+  ellipse(sliderX, 85, 20, 20);
+
+  float val = map(sliderX, sliderMin, sliderMax, 0, 100);
+  fill(0);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text(nf(val, 0, 1) + "%", width / 2, 150);
+}
+
+void mousePressed() {
+  if (dist(mouseX, mouseY, sliderX, 85) &lt; 15) {
+    dragging = true;
+  }
+}
+
+void mouseDragged() {
+  if (dragging) {
+    sliderX = constrain(mouseX, sliderMin, sliderMax);
+  }
+}
+
+void mouseReleased() {
+  dragging = false;
+}</code></pre>
+<h3>15.5 Чекбоксы</h3>
+<pre><span class="lang-badge">java</span><code>boolean optionA = true;
+boolean optionB = false;
+boolean optionC = false;
+
+void setup() {
+  size(300, 250);
+}
+
+void draw() {
+  background(240);
+
+  textSize(16);
+  fill(0);
+  text("Выберите опции:", 20, 30);
+
+  drawCheckbox(20, 60, 16, optionA, "Вариант A");
+  drawCheckbox(20, 100, 16, optionB, "Вариант B");
+  drawCheckbox(20, 140, 16, optionC, "Вариант C");
+
+  fill(0);
+  String selected = "";
+  if (optionA) selected += "A ";
+  if (optionB) selected += "B ";
+  if (optionC) selected += "C ";
+  text("Выбрано: " + selected, 20, 200);
+}
+
+void drawCheckbox(int x, int y, int s, boolean checked, String label) {
+  stroke(150);
+  strokeWeight(1);
+  fill(checked ? color(100, 150, 255) : 255);
+  rect(x, y, s, s);
+
+  if (checked) {
+    stroke(255);
+    strokeWeight(2);
+    line(x + 3, y + 3, x + s - 3, y + s - 3);
+    line(x + s - 3, y + 3, x + 3, y + s - 3);
+  }
+
+  fill(0);
+  textAlign(LEFT, CENTER);
+  textSize(14);
+  text(label, x + s + 10, y + s / 2);
+}
+
+void mousePressed() {
+  if (isInside(mouseX, mouseY, 20, 60, 16, 16)) optionA = !optionA;
+  if (isInside(mouseX, mouseY, 20, 100, 16, 16)) optionB = !optionB;
+  if (isInside(mouseX, mouseY, 20, 140, 16, 16)) optionC = !optionC;
+}
+
+boolean isInside(int mx, int my, int x, int y, int w, int h) {
+  return mx &gt; x &amp;&amp; mx &lt; x + w &amp;&amp; my &gt; y &amp;&amp; my &lt; y + h;
+}</code></pre>
+<h3>15.6 Библиотека ControlP5</h3>
+<p>Для серьёзных GUI-проектов установите библиотеку: <code>Скетч → Импорт библиотеки → ControlP5</code>.</p>
+<pre><span class="lang-badge">java</span><code>import controlP5.*;
+
+ControlP5 cp5;
+
+void setup() {
+  size(400, 400);
+  cp5 = new ControlP5(this);
+
+  cp5.addButton("clickMe")
+    .setPosition(50, 50)
+    .setSize(100, 40)
+    .setCaptionLabel("Нажми меня");
+
+  cp5.addSlider("brightness")
+    .setPosition(50, 120)
+    .setSize(300, 20)
+    .setRange(0, 255)
+    .setValue(128);
+
+  cp5.addList("shapeList")
+    .setPosition(50, 170)
+    .setSize(200, 100)
+    .setOpen(false)
+    .addItem("Круг", 0)
+    .addItem("Квадрат", 1)
+    .addItem("Треугольник", 2);
+}
+
+void draw() {
+  background(220);
+}
+
+void clickMe() {
+  println("Кнопка нажата!");
+}
+
+void brightness(int val) {
+  background(val);
+}
+
+void shapeList(int val) {
+  println("Выбран элемент: " + val);
+}</code></pre>
+<h3>15.7 Иконка окна</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 300);
+
+  PImage icon = loadImage("icon.png");
+  surface.setIcon(icon);
+  surface.setTitle("Приложение с иконкой");
+}
+
+void draw() {
+  background(255);
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 15</summary>
+<p>1. <strong>Практика.</strong> Создайте приложение с тремя кнопками: «Красный», «Зелёный», «Синий». При нажатии фон окна меняется на соответствующий цвет. Добавьте заголовок окна «Цветовой переключатель».</p>
+<p>2. <strong>Практика.</strong> Сделайте конвертер температуры: слайдер для ввода °C (0–100), рядом — значение в °F. Используйте ручное рисование слайдера (без ControlP5).</p>
+<p>3. <strong>Практика.</strong> Создайте простое TODO-приложение: поле для ввода текста, кнопка «Добавить», список задач на экране.</p>
+</details>
+<h2 id="16-классы-и-объекты-ооп">16. Классы и объекты (ООП)</h2>
+<p>В Processing можно создавать свои типы данных — <strong>классы</strong>. Это основа объектно-ориентированного программирования (ООП), которая позволяет группировать данные и функции в одну сущность — <strong>объект</strong>.</p>
+<h3>16.1 Что такое класс?</h3>
+<p><strong>Класс</strong> — это шаблон (чертёж), описывающий состояние (поля) и поведение (методы) объектов.</p>
+<p><strong>Объект</strong> — конкретный экземпляр класса.</p>
+<h3>16.2 Создание класса</h3>
+<pre><span class="lang-badge">java</span><code>class Ball {
+  float x, y;     // Поля (данные)
+  float vx, vy;
+  float r;
+
+  // Конструктор — вызывается при создании объекта
+  Ball(float x, float y) {
+    this.x = x;
+    this.y = y;
+    this.r = 20;
+    this.vx = random(-2, 2);
+    this.vy = random(-2, 2);
+  }
+
+  // Методы (поведение)
+  void update() {
+    x += vx;
+    y += vy;
+    if (x &lt; 0 || x &gt; width) vx *= -1;
+    if (y &lt; 0 || y &gt; height) vy *= -1;
+  }
+
+  void display() {
+    fill(100, 150, 255, 150);
+    noStroke();
+    ellipse(x, y, r * 2, r * 2);
+  }
+}</code></pre>
+<h3>16.3 Создание объектов</h3>
+<p>Объекты создаются через <code>new</code>:</p>
+<pre><span class="lang-badge">java</span><code>Ball b1;                     // Объявление переменной
+b1 = new Ball(100, 200);     // Создание объекта
+
+Ball b2 = new Ball(300, 150);</code></pre>
+<h3>16.4 Использование объектов</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 300);
+}
+
+void draw() {
+  background(255);
+  b1.update();
+  b1.display();
+  b2.update();
+  b2.display();
+}</code></pre>
+<h3>16.5 Массив объектов</h3>
+<pre><span class="lang-badge">java</span><code>Ball[] balls = new Ball[10];
+
+void setup() {
+  size(400, 300);
+  for (int i = 0; i &lt; balls.length; i++) {
+    balls[i] = new Ball(random(width), random(height));
+  }
+}
+
+void draw() {
+  background(255);
+  for (Ball b : balls) {
+    b.update();
+    b.display();
+  }
+}</code></pre>
+<h3>16.6 Пример: вращающиеся квадраты</h3>
+<pre><span class="lang-badge">java</span><code>class RotatingBox {
+  float x, y, size, angle, speed;
+
+  RotatingBox(float x, float y, float size) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.angle = random(TWO_PI);
+    this.speed = random(0.01, 0.05);
+  }
+
+  void update() {
+    angle += speed;
+  }
+
+  void display() {
+    pushMatrix();
+    translate(x, y);
+    rotate(angle);
+    fill(map(speed, 0.01, 0.05, 100, 255), 100, 200);
+    rectMode(CENTER);
+    rect(0, 0, size, size);
+    popMatrix();
+  }
+}
+
+RotatingBox[] boxes = new RotatingBox[20];
+
+void setup() {
+  size(600, 400);
+  for (int i = 0; i &lt; boxes.length; i++) {
+    boxes[i] = new RotatingBox(
+      random(width), random(height), random(20, 60)
+    );
+  }
+}
+
+void draw() {
+  background(30);
+  for (RotatingBox box : boxes) {
+    box.update();
+    box.display();
+  }
+}</code></pre>
+<h3>16.7 Методы, возвращающие значение</h3>
+<pre><span class="lang-badge">java</span><code>class Thermometer {
+  float value;
+
+  Thermometer(float initial) {
+    value = initial;
+  }
+
+  void update(float newValue) {
+    value = newValue;
+  }
+
+  color getColor() {
+    return lerpColor(color(0, 0, 255), color(255, 0, 0), value / 100.0);
+  }
+
+  String getLabel() {
+    return nf(value, 0, 1) + "°C";
+  }
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 16</summary>
+<p>1. <strong>Практика.</strong> Создайте класс <code>Car</code> с полями x, y, speed, bodyColor. Метод <code>display()</code> рисует машинку (кузов + колёса). Создайте 5 машин, движущихся вправо с разными скоростями.</p>
+<p>2. <strong>Практика.</strong> Реализуйте класс <code>Star</code>: поля x, y, size, brightness, twinkleSpeed. Звезда должна мерцать (изменять brightness по sin). Создайте массив из 50 звёзд на случайных позициях.</p>
+<p>3. <strong>Практика.</strong> Добавьте в класс <code>Ball</code> метод <code>applyForce(PVector force)</code> и реализуйте гравитацию и отталкивание от стен. Создайте 3 шара с разными массами.</p>
+</details>
+<h2 id="17-векторы-и-pvector">17. Векторы и PVector</h2>
+<p>Для работы с движением, физикой и направлениями Processing предоставляет класс <code>PVector</code>.</p>
+<h3>17.1 Что такое вектор?</h3>
+<p><strong>Вектор</strong> — это направленный отрезок, имеющий длину (magnitude) и направление (heading). В двумерном пространстве вектор задаётся двумя компонентами: x и y.</p>
+<h3>17.2 Создание PVector</h3>
+<pre><span class="lang-badge">java</span><code>PVector v1 = new PVector(3, 4);          // Вектор (3, 4)
+PVector v2 = new PVector(mouseX, mouseY); // Вектор от начала координат до мыши
+PVector v3 = PVector.random2D();          // Случайное направление, длина 1</code></pre>
+<h3>17.3 Базовые операции</h3>
+<pre><span class="lang-badge">java</span><code>PVector a = new PVector(10, 20);
+PVector b = new PVector(30, 40);
+
+PVector sum = PVector.add(a, b);       // Сложение: (40, 60)
+PVector diff = PVector.sub(a, b);      // Вычитание: (-20, -20)
+PVector scaled = PVector.mult(a, 2);   // Умножение на скаляр: (20, 40)
+
+float len = a.mag();                   // Длина вектора: sqrt(10² + 20²)
+a.setMag(50);                          // Установить длину в 50
+a.normalize();                         // Привести к единичной длине
+
+float d = a.dist(b);                   // Расстояние между a и b (статические)
+float d2 = a.dist(b);                  // Или экземплярный метод</code></pre>
+<h3>17.4 Движение с ускорением</h3>
+<p>Классическая схема движения: <strong>позиция + скорость + ускорение</strong></p>
+<pre><span class="lang-badge">java</span><code>PVector position;
+PVector velocity;
+PVector acceleration;
+
+void setup() {
+  size(400, 300);
+  position = new PVector(width / 2, height / 2);
+  velocity = new PVector(0, 0);
+}
+
+void draw() {
+  background(255);
+
+  // Ускорение направлено к мыши
+  PVector mouse = new PVector(mouseX, mouseY);
+  PVector direction = PVector.sub(mouse, position);
+  direction.setMag(0.1);
+  acceleration = direction;
+
+  velocity.add(acceleration);
+  velocity.limit(5);        // Ограничение максимальной скорости
+  position.add(velocity);
+
+  fill(100, 150, 255);
+  ellipse(position.x, position.y, 30, 30);
+
+  // Вектор скорости
+  stroke(255, 0, 0);
+  line(position.x, position.y,
+       position.x + velocity.x * 10,
+       position.y + velocity.y * 10);
+}</code></pre>
+<h3>17.5 Отталкивание от мыши</h3>
+<pre><span class="lang-badge">java</span><code>PVector pos;
+PVector vel;
+
+void setup() {
+  size(400, 300);
+  pos = new PVector(width / 2, height / 2);
+  vel = new PVector(1, 2);
+}
+
+void draw() {
+  background(255);
+
+  // Сила отталкивания от мыши
+  PVector mouse = new PVector(mouseX, mouseY);
+  PVector repel = PVector.sub(pos, mouse);
+  float dist = repel.mag();
+  if (dist &lt; 100) {
+    repel.setMag(map(dist, 0, 100, 0.5, 0));
+    vel.add(repel);
+  }
+
+  vel.limit(4);
+  pos.add(vel);
+
+  // Границы
+  if (pos.x &lt; 0 || pos.x &gt; width) vel.x *= -1;
+  if (pos.y &lt; 0 || pos.y &gt; height) vel.y *= -1;
+
+  fill(200, 100, 100);
+  ellipse(pos.x, pos.y, 30, 30);
+}</code></pre>
+<h3>17.6 PVector.fromAngle()</h3>
+<pre><span class="lang-badge">java</span><code>PVector direction;
+float angle = 0;
+
+void setup() {
+  size(400, 300);
+  direction = PVector.fromAngle(0);
+}
+
+void draw() {
+  background(255);
+
+  direction = PVector.fromAngle(angle);
+  direction.mult(100);
+
+  PVector center = new PVector(width / 2, height / 2);
+  PVector tip = PVector.add(center, direction);
+
+  stroke(0);
+  line(center.x, center.y, tip.x, tip.y);
+  fill(255, 0, 0);
+  ellipse(tip.x, tip.y, 10, 10);
+
+  angle += 0.02;
+}</code></pre>
+<h3>17.7 Полезные методы PVector</h3>
+<pre><span class="lang-badge">java</span><code>PVector v = new PVector(3, 4);
+
+float m = v.mag();            // Длина: 5.0
+float h = v.heading();        // Угол в радианах
+v.rotate(0.1);                // Поворот вектора
+v.limit(10);                  // Ограничить длину
+v.setMag(1);                  // Установить длину = 1
+
+PVector r = PVector.random2D();  // Случайный единичный вектор
+float dp = a.dot(b);             // Скалярное произведение</code></pre>
+<details>
+<summary>Упражнения к разделу 17</summary>
+<p>1. <strong>Практика.</strong> Реализуйте «рой» из 20 точек, каждая из которых движется к цели (мыши), но с небольшим случайным смещением. Используйте PVector для каждой точки.</p>
+<p>2. <strong>Практика.</strong> Сделайте программу, где объект движется по эллипсу, используя PVector.fromAngle() с разными радиусами по X и Y.</p>
+<p>3. <strong>Практика.</strong> Реализуйте гравитационное притяжение: один большой объект (в центре) притягивает маленькие шарики. Сила притяжения обратно пропорциональна квадрату расстояния.</p>
+</details>
+<h2 id="18-работа-с-изображениями">18. Работа с изображениями</h2>
+<p>Processing позволяет загружать, создавать, обрабатывать и сохранять изображения.</p>
+<h3>18.1 Загрузка и отображение</h3>
+<pre><span class="lang-badge">java</span><code>PImage img;
+
+void setup() {
+  size(400, 300);
+  img = loadImage("photo.jpg");  // Файл в папке data
+}
+
+void draw() {
+  image(img, 0, 0);             // Оригинальный размер
+  // image(img, 0, 0, width, height);  // Масштабирование под окно
+}</code></pre>
+<p>Поддерживаемые форматы: JPG, PNG, GIF, TGA.</p>
+<h3>18.2 Изменение размера</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 300);
+  PImage img = loadImage("large.jpg");
+  img.resize(width, height);    // Изменить размер
+  image(img, 0, 0);
+}</code></pre>
+<h3>18.3 Получение и установка пикселей</h3>
+<pre><span class="lang-badge">java</span><code>PImage img;
+
+void setup() {
+  size(400, 300);
+  img = loadImage("photo.jpg");
+}
+
+void draw() {
+  image(img, 0, 0);
+
+  // Получить цвет конкретного пикселя
+  color c = img.get(mouseX, mouseY);
+  fill(c);
+  rect(20, 20, 50, 50);
+}</code></pre>
+<h3>18.4 Прямой доступ к пикселям через `pixels[]`</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(200, 200);
+}
+
+void draw() {
+  loadPixels();  // Загружаем пиксели окна в массив pixels[]
+
+  for (int x = 0; x &lt; width; x++) {
+    for (int y = 0; y &lt; height; y++) {
+      int loc = x + y * width;
+      float r = map(x, 0, width, 0, 255);
+      float g = map(y, 0, height, 0, 255);
+      float b = map(mouseX, 0, width, 0, 255);
+      pixels[loc] = color(r, g, b);
+    }
+  }
+
+  updatePixels();  // Применяем изменения
+}</code></pre>
+<h3>18.5 Пиксельные эффекты на изображении</h3>
+<pre><span class="lang-badge">java</span><code>PImage img;
+
+void setup() {
+  size(400, 300);
+  img = loadImage("photo.jpg");
+}
+
+void draw() {
+  image(img, 0, 0);
+
+  // Фильтры
+  if (keyPressed) {
+    if (key == '1') filter(GRAY);
+    if (key == '2') filter(BLUR, 3);
+    if (key == '3') filter(THRESHOLD, 0.5);
+    if (key == '4') filter(INVERT);
+    if (key == ' ') image(img, 0, 0);  // Сброс
+  }
+}</code></pre>
+<h3>18.6 Создание изображения с нуля</h3>
+<pre><span class="lang-badge">java</span><code>PImage canvas;
+
+void setup() {
+  size(400, 300);
+  canvas = createImage(400, 300, RGB);
+  for (int i = 0; i &lt; canvas.pixels.length; i++) {
+    canvas.pixels[i] = color(random(255), random(255), random(255));
+  }
+  canvas.updatePixels();
+}
+
+void draw() {
+  image(canvas, 0, 0);
+}</code></pre>
+<h3>18.7 Режимы наложения</h3>
+<pre><span class="lang-badge">java</span><code>PImage bg;
+PImage fg;
+
+void setup() {
+  size(400, 300);
+  bg = loadImage("bg.jpg");
+  fg = loadImage("overlay.png");
+}
+
+void draw() {
+  image(bg, 0, 0);
+  blendMode(ADD);     // Наложение: ADD, SUBTRACT, DARKEST, LIGHTEST, MULTIPLY
+  image(fg, 0, 0);
+  blendMode(BLEND);   // Возврат к обычному
+}</code></pre>
+<h3>18.8 Захват экрана и сохранение кадров</h3>
+<pre><span class="lang-badge">java</span><code>void draw() {
+  // ... рисование ...
+
+  if (keyPressed &amp;&amp; key == 's') {
+    save("sketch.png");           // Сохранить текущий кадр
+    saveFrame("frame-####.png");  // Сохранить с номером кадра
+  }
+}</code></pre>
+<p><code>saveFrame("frame-####.png")</code> автоматически заменяет <code>####</code> на номер кадра (<code>frameCount</code>).</p>
+<details>
+<summary>Упражнения к разделу 18</summary>
+<p>1. <strong>Практика.</strong> Загрузите изображение и наложите эффект пикселизации: разбейте картинку на квадраты 10×10 и залейте каждый квадрат средним цветом пикселей внутри него.</p>
+<p>2. <strong>Практика.</strong> Используя <code>pixels[]</code>, создайте эффект «зеркала»: левая половина изображения отражается в правую половину.</p>
+<p>3. <strong>Практика.</strong> Используя <code>saveFrame()</code>, создайте GIF-анимацию из 60 кадров: вращающийся разноцветный квадрат.</p>
+</details>
+<h2 id="19-сохранение-и-загрузка-данных">19. Сохранение и загрузка данных</h2>
+<p>Processing поддерживает сохранение и загрузку данных в различных форматах: текстовые файлы, таблицы, JSON.</p>
+<h3>19.1 Текстовые файлы: `saveStrings()` / `loadStrings()`</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  // Сохранение
+  String[] lines = { "Первая строка", "Вторая строка", "Третья строка" };
+  saveStrings("data.txt", lines);
+
+  // Загрузка
+  String[] loaded = loadStrings("data.txt");
+  for (String line : loaded) {
+    println(line);
+  }
+}</code></pre>
+<h3>19.2 Таблицы: `saveTable()` / `loadTable()`</h3>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  // Создание таблицы
+  Table table = new Table();
+  table.addColumn("name");
+  table.addColumn("score");
+
+  TableRow row1 = table.addRow();
+  row1.setString("name", "Alice");
+  row1.setInt("score", 1500);
+
+  TableRow row2 = table.addRow();
+  row2.setString("name", "Bob");
+  row2.setInt("score", 1200);
+
+  saveTable(table, "scores.csv");
+}
+
+void draw() {
+  // Загрузка и отображение
+  Table loaded = loadTable("scores.csv", "header");
+  for (TableRow row : loaded.rows()) {
+    String name = row.getString("name");
+    int score = row.getInt("score");
+    println(name + ": " + score);
+  }
+  noLoop();
+}</code></pre>
+<h3>19.3 JSON: `saveJSONObject()` / `loadJSONObject()`</h3>
+<pre><span class="lang-badge">java</span><code>void saveSettings() {
+  JSONObject json = new JSONObject();
+  json.setInt("windowWidth", 800);
+  json.setInt("windowHeight", 600);
+  json.setString("bgColor", "#FFFFFF");
+  json.setBoolean("fullscreen", false);
+
+  saveJSONObject(json, "settings.json");
+}
+
+void loadSettings() {
+  JSONObject json = loadJSONObject("settings.json");
+  int w = json.getInt("windowWidth");
+  int h = json.getInt("windowHeight");
+  println("Размер окна: " + w + "×" + h);
+}</code></pre>
+<h3>19.4 Сохранение рекордов (пример)</h3>
+<pre><span class="lang-badge">java</span><code>Table scores;
+
+void setup() {
+  size(300, 200);
+
+  File f = new File(dataFile("scores.csv").path());
+  if (f.exists()) {
+    scores = loadTable("scores.csv", "header");
+  } else {
+    scores = new Table();
+    scores.addColumn("name");
+    scores.addColumn("score");
+    scores.addColumn("date");
+  }
+}
+
+void draw() {
+  background(240);
+
+  // Отображение таблицы рекордов
+  textSize(14);
+  fill(0);
+  text("Топ результатов:", 20, 30);
+
+  int y = 50;
+  // Сортировка и вывод
+  for (int i = 0; i &lt; min(scores.getRowCount(), 5); i++) {
+    String name = scores.getString(i, "name");
+    int score = scores.getInt(i, "score");
+    text((i + 1) + ". " + name + " — " + score, 20, y);
+    y += 20;
+  }
+}
+
+void addScore(String name, int score) {
+  TableRow row = scores.addRow();
+  row.setString("name", name);
+  row.setInt("score", score);
+  row.setString("date", year() + "-" + month() + "-" + day());
+  scores.sortReverse("score");
+  saveTable(scores, "scores.csv");
+}
+
+void mousePressed() {
+  addScore("Player", int(random(1000)));
+}</code></pre>
+<h3>19.5 Сохранение массива объектов в JSON</h3>
+<pre><span class="lang-badge">java</span><code>class Particle {
+  float x, y;
+  float size;
+
+  Particle(float x, float y, float size) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+  }
+
+  JSONObject toJSON() {
+    JSONObject json = new JSONObject();
+    json.setFloat("x", x);
+    json.setFloat("y", y);
+    json.setFloat("size", size);
+    return json;
+  }
+}
+
+void saveParticles(Particle[] particles, String filename) {
+  JSONArray arr = new JSONArray();
+  for (int i = 0; i &lt; particles.length; i++) {
+    arr.setJSONObject(i, particles[i].toJSON());
+  }
+  saveJSONArray(arr, filename);
+}</code></pre>
+<h3>19.6 Диалоги выбора файлов</h3>
+<p>Processing предоставляет диалоги для выбора файлов через <code>selectInput()</code>, <code>selectOutput()</code> и <code>selectFolder()</code>:</p>
+<pre><span class="lang-badge">java</span><code>void setup() {
+  size(400, 300);
+}
+
+void draw() {
+  background(240);
+  fill(0);
+  text("Нажмите клавишу O для открытия файла", 20, 50);
+  text("Нажмите клавишу S для сохранения", 20, 80);
+}
+
+void keyPressed() {
+  if (key == 'o' || key == 'O') {
+    selectInput("Выберите файл:", "fileSelected");
+  }
+  if (key == 's' || key == 'S') {
+    selectOutput("Сохранить как:", "fileSaved");
+  }
+}
+
+void fileSelected(File selection) {
+  if (selection != null) {
+    println("Выбран файл: " + selection.getAbsolutePath());
+    String[] data = loadStrings(selection.getAbsolutePath());
+    for (String line : data) {
+      println(line);
+    }
+  }
+}
+
+void fileSaved(File selection) {
+  if (selection != null) {
+    String[] lines = { "Сохранённые данные", "Строка 2" };
+    saveStrings(selection.getAbsolutePath(), lines);
+    println("Сохранено в: " + selection.getAbsolutePath());
+  }
+}</code></pre>
+<details>
+<summary>Упражнения к разделу 19</summary>
+<p>1. <strong>Практика.</strong> Создайте приложение-дневник: текстовое поле для ввода, кнопка «Сохранить запись». Все записи храните в файле методом <code>saveStrings()</code> / <code>loadStrings()</code>. Показывайте список сохранённых записей на экране.</p>
+<p>2. <strong>Практика.</strong> Сделайте таблицу рекордов для игры: имя игрока (ввод с клавиатуры), счёт (случайное число), дата. Сохраняйте в CSV, показывайте топ-5 при запуске.</p>
+<p>3. <strong>Практика.</strong> Реализуйте сохранение состояния холста: при нажатии Ctrl+S сохраняйте текущий рисунок как PNG (<code>save()</code>), при нажатии Ctrl+O загружайте изображение и продолжайте рисовать поверх.</p>
+</details>
+<h2 id="20-основы-processing-arduino">20. Основы Processing + Arduino</h2>
+<p>В этой главе вы научитесь подключать Arduino к Processing, обмениваться данными и создавать графические интерфейсы для управления устройствами.</p>
+<h3>Повторение: Processing для главы 20</h3>
+<p>В примерах этой главы используются следующие концепции Processing. Если вы их забыли — краткий обзор ниже.</p>
+<p><strong><code>setup()</code> и <code>draw()</code></strong> — базовая структура любого скетча. <code>setup()</code> вызывается один раз, <code>draw()</code> — 60 раз в секунду.</p>
+<p><strong><code>import</code></strong> — подключение библиотек. Для Arduino нужна <code>import processing.serial.*;</code>.</p>
+<p><strong><code>size(w, h)</code></strong> — размер окна.</p>
+<p><strong><code>map(value, fromLow, fromHigh, toLow, toHigh)</code></strong> — переводит число из одного диапазона в другой. Например, <code>map(analogValue, 0, 1023, 0, 255)</code> превращает показания потенциометра 0–1023 в 0–255.</p>
+<p><strong><code>constrain(value, min, max)</code></strong> — ограничивает значение в диапазоне.</p>
+<p><strong>Массивы</strong> — <code>float[] values = new float[100]</code> хранит последние 100 значений с датчика.</p>
+<p><strong><code>fill(r, g, b)</code></strong> — цвет заливки. <code>background(r, g, b)</code> — цвет фона.</p>
+<p><strong><code>ellipse(x, y, w, h)</code></strong> — круг/овал. <code>rect(x, y, w, h)</code> — прямоугольник.</p>
+<p><strong><code>dist(x1, y1, x2, y2)</code></strong> — расстояние между двумя точками.</p>
+<p><strong><code>mouseX</code>, <code>mouseY</code></strong> — координаты мыши. <strong><code>mousePressed()</code></strong> — вызывается при нажатии.</p>
+<p><strong><code>text("текст", x, y)</code></strong> — вывод текста. <code>textAlign(CENTER, CENTER)</code> — выравнивание.</p>
+<p><strong>Тернарный оператор</strong> — <code>условие ? значение1 : значение2</code>. Например, <code>ledState ? color(0,255,0) : color(255,0,0)</code>.</p>
+<h3>Настройка связи Processing и Arduino</h3>
+<p>Прежде чем запускать примеры, нужно настроить соединение.</p>
+<p>#### Шаг 1: Подключите Arduino к компьютеру через USB.</p>
+<p>#### Шаг 2: Узнайте номер COM-порта:</p>
+<ul>
+  <li><strong>Windows</strong>: откройте Диспетчер устройств → Порты (COM и LPT). Найдите <code>Arduino Uno (COM3)</code> или аналогичный.</li>
+  <li><strong>macOS</strong>: в терминале: <code>ls /dev/cu.usbmodem<em></code> или <code>/dev/cu.usbserial</em></code>.</li>
+  <li><strong>Linux</strong>: <code>ls /dev/ttyACM<em></code> или <code>/dev/ttyUSB</em></code>.</li>
+</ul>
+<p>#### Шаг 3: Запишите Arduino-скетч.</p>
+<p>Перед запуском Processing-скетча нужно загрузить соответствующий скетч в Arduino через Arduino IDE. Каждый пример содержит Arduino-код.</p>
+<p>#### Шаг 4: Укажите порт в Processing.</p>
+<p>В Processing-скетче замените <code>"COM3"</code> на ваш порт. Примеры:</p>
+<ul>
+  <li>Windows: <code>"COM5"</code></li>
+  <li>macOS: <code>"/dev/cu.usbmodem14101"</code></li>
+  <li>Linux: <code>"/dev/ttyACM0"</code></li>
+</ul>
+<p>#### Типичные проблемы:</p>
+<table>
+  <tr>
+    <th>Проблема</th>
+    <th>Решение</th>
+  </tr>
+  <tr>
+    <td><code>NullPointerException</code> при Serial</td>
+    <td>Проверьте, что Arduino подключён и порт указан правильно</td>
+  </tr>
+  <tr>
+    <td>Arduino мигает, но нет данных</td>
+    <td>Закройте монитор порта в Arduino IDE (он блокирует порт)</td>
+  </tr>
+  <tr>
+    <td>Данные приходят с шумом</td>
+    <td>Увеличьте <code>delay()</code> в Arduino или используйте <code>bufferUntil</code></td>
+  </tr>
+  <tr>
+    <td>Порт занят</td>
+    <td>Перезагрузите Arduino и запустите скетч заново</td>
+  </tr>
+</table>
+<h3>Пример 1: Передача данных с Arduino в Processing (График данных с потенциометра)</h3>
+<p><strong>Концепции Processing в примере:</strong> <code>arrays</code>, <code>map()</code>, <code>serialEvent()</code>, <code>beginShape()</code>/<code>endShape()</code>, <code>vertex()</code>, <code>background()</code>, <code>text()</code>.</p>
+<p>#### Arduino-скетч</p>
+<pre><span class="lang-badge">cpp</span><code>void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int sensorValue = analogRead(A0);
+  Serial.println(sensorValue);
+  delay(50);
+}</code></pre>
+<p>#### Processing-скетч</p>
+<pre><span class="lang-badge">java</span><code>import processing.serial.*;    // Подключаем Serial-библиотеку
+
+Serial myPort;                  // Объект для работы с портом
+float[] values = new float[100]; // Массив для хранения 100 последних значений
+int index = 0;                  // Текущая позиция в массиве
+
+void setup() {
+  size(800, 400);
+  // Замените "COM3" на ваш порт
+  myPort = new Serial(this, "COM3", 9600);
+  myPort.bufferUntil('\n');     // Собираем данные до символа новой строки
+}
+
+void draw() {
+  background(255);
+
+  // Рисуем график: соединяем точки линиями
+  stroke(0, 150, 255);
+  noFill();
+  beginShape();
+  for (int i = 0; i &lt; values.length; i++) {
+    // map() переводит 0-1023 в 0-height (инвертировано по Y)
+    float y = map(values[i], 0, 1023, height, 0);
+    vertex(map(i, 0, values.length, 0, width), y);
+  }
+  endShape();
+
+  // Выводим текущее значение
+  fill(0);
+  text("Потенциометр: " + values[index], 20, 30);
+}
+
+// serialEvent() автоматически вызывается при получении данных из Serial
+void serialEvent(Serial p) {
+  String data = p.readString().trim();  // Читаем строку, убираем пробелы
+  if (data != null) {
+    float val = float(data);           // Преобразуем строку в число
+    values[index] = val;               // Сохраняем в массив
+    index = (index + 1) % values.length; // Циклический индекс
+  }
+}</code></pre>
+<p><strong>Разбор Processing-кода:</strong></p>
+<ul>
+  <li><code>import processing.serial.*;</code> — библиотека для Serial-порта.</li>
+  <li><code>Serial myPort;</code> — переменная для работы с портом.</li>
+  <li><code>bufferUntil('\n')</code> — накапливает данные, пока не придёт <code>\n</code>, затем вызывает <code>serialEvent()</code>.</li>
+  <li><code>serialEvent()</code> — встроенная функция Processing, срабатывает при получении данных.</li>
+  <li><code>map(values[i], 0, 1023, height, 0)</code> — преобразует 0–1023 в диапазон высоты окна.</li>
+  <li><code>beginShape()</code> / <code>vertex()</code> / <code>endShape()</code> — рисует ломаную линию по точкам.</li>
+</ul>
+<h3>Пример 2: Управление светодиодом через GUI в Processing</h3>
+<p><strong>Концепции Processing в примере:</strong> <code>ellipse()</code>, <code>dist()</code>, <code>mousePressed()</code>, тернарный оператор, <code>surface.setTitle()</code>.</p>
+<p>#### Arduino-скетч</p>
+<pre><span class="lang-badge">cpp</span><code>void setup() {
+  Serial.begin(9600);
+  pinMode(13, OUTPUT);  // Встроенный светодиод на пине 13
+}
+
+void loop() {
+  if (Serial.available()) {
+    char cmd = Serial.read();   // Читаем один символ
+    if (cmd == '1') digitalWrite(13, HIGH);  // Включить
+    if (cmd == '0') digitalWrite(13, LOW);   // Выключить
+  }
+}</code></pre>
+<p>#### Processing-скетч</p>
+<pre><span class="lang-badge">java</span><code>import processing.serial.*;
+
+Serial myPort;
+boolean ledState = false;  // false = выключен, true = включён
+
+void setup() {
+  size(300, 200);
+  myPort = new Serial(this, "COM3", 9600);
+  surface.setTitle("LED Control");  // Заголовок окна
+}
+
+void draw() {
+  background(220);
+
+  // Тернарный оператор: если ledState true — зелёный, иначе — красный
+  fill(ledState ? color(0, 255, 0) : color(255, 0, 0));
+  ellipse(width / 2, height / 2, 100, 100);
+
+  fill(0);
+  textAlign(CENTER, CENTER);
+  text("Нажми на круг, чтобы переключить LED",
+       width / 2, height / 2 + 70);
+}
+
+void mousePressed() {
+  // dist() проверяет, попал ли клик в круг
+  if (dist(mouseX, mouseY, width / 2, height / 2) &lt; 50) {
+    ledState = !ledState;                         // Переключаем состояние
+    myPort.write(ledState ? '1' : '0');           // Отправляем символ
+  }
+}</code></pre>
+<p><strong>Разбор кода:</strong></p>
+<ul>
+  <li><code>import processing.serial.*;</code> — библиотека Serial.</li>
+  <li><code>ledState ? color(0,255,0) : color(255,0,0)</code> — если <code>ledState == true</code>, зелёный, иначе красный.</li>
+  <li><code>dist(mouseX, mouseY, cx, cy) &lt; r</code> — проверка клика внутри круга.</li>
+  <li><code>myPort.write('1')</code> — отправляет <strong>один байт</strong> (символ '1') в Serial.</li>
+  <li>Arduino принимает: <code>Serial.read()</code> читает один символ и сравнивает с <code>'1'</code> / <code>'0'</code>.</li>
+</ul>
+<h3>Пример 3: Управление сервоприводом через слайдер в Processing</h3>
+<p><strong>Концепции Processing в примере:</strong> библиотека <code>ControlP5</code>, слайдер, callback-функция <code>angle()</code>.</p>
+<p>#### Установка ControlP5</p>
+<p><code>Скетч → Импорт библиотеки → Добавить библиотеку → найти ControlP5 → Установить</code></p>
+<p>#### Arduino-скетч</p>
+<pre><span class="lang-badge">cpp</span><code>#include &lt;Servo.h&gt;
+
+Servo myServo;
+
+void setup() {
+  Serial.begin(9600);
+  myServo.attach(9);  // Сервопривод на 9 пине
+}
+
+void loop() {
+  if (Serial.available()) {
+    int angle = Serial.parseInt();  // Читаем число из Serial
+    myServo.write(angle);           // Поворачиваем серву
+  }
+}</code></pre>
+<p>#### Processing-скетч</p>
+<pre><span class="lang-badge">java</span><code>import processing.serial.*;
+import controlP5.*;     // Библиотека для GUI-элементов
+
+Serial myPort;
+ControlP5 cp5;          // Объект для управления интерфейсом
+
+void setup() {
+  size(400, 300);
+  myPort = new Serial(this, "COM3", 9600);
+  cp5 = new ControlP5(this);  // Создаём ControlP5
+
+  // Создаём слайдер
+  cp5.addSlider("angle")        // Название (совпадает с callback-функцией)
+    .setPosition(50, 100)       // Позиция на экране
+    .setSize(300, 30)           // Размер
+    .setRange(0, 180)           // Диапазон значений
+    .setValue(90)               // Начальное значение
+    .setCaptionLabel("Угол сервопривода");  // Подпись
+}
+
+void draw() {
+  background(220);
+  fill(0);
+  text("Управление сервоприводом", 50, 50);
+}
+
+// Callback-функция: ControlP5 автоматически вызывает её
+// при изменении слайдера. Имя должно совпадать с названием слайдера.
+void angle(int value) {
+  myPort.write(value + "\n");  // Отправляем число + перенос строки
+}</code></pre>
+<p><strong>Разбор кода:</strong></p>
+<ul>
+  <li><code>ControlP5</code> — библиотека для GUI (кнопки, слайдеры, списки). Устанавливается отдельно.</li>
+  <li><code>cp5.addSlider("angle")</code> — слайдер с именем <code>angle</code>. Processing ищет функцию <code>void angle(int value)</code> и вызывает её при изменении.</li>
+  <li><code>Serial.parseInt()</code> в Arduino — читает число из Serial до первого нечислового символа.</li>
+  <li><code>myPort.write(value + "\n")</code> — отправляем строку вида <code>"90\n"</code>.</li>
+</ul>
+<h2 id="21-продвинутые-проекты-processing-arduino">21. Продвинутые проекты Processing + Arduino</h2>
+<p>В этой главе вы изучите продвинутые приёмы работы Processing с Arduino: текстовые протоколы, двустороннюю связь, визуализацию данных с датчиков.</p>
+<h3>Повторение: Processing для главы 21</h3>
+<p>В примерах этой главы используются следующие возможности Processing.</p>
+<p><strong>Классы и объекты</strong> — <code>class Ball { ... }</code>. Позволяют создавать свои типы данных для организации сложных проектов.</p>
+<p><strong>Строки и их методы:</strong></p>
+<ul>
+  <li><code>split(input, separator)</code> — разбивает строку на массив по разделителю</li>
+  <li><code>indexOf(char)</code> — ищет позицию символа в строке</li>
+  <li><code>substring(start, end)</code> — вырезает часть строки</li>
+  <li><code>toInt()</code> — преобразует строку в целое число</li>
+  <li><code>trim()</code> — удаляет пробелы в начале и конце</li>
+</ul>
+<p><strong>Обработка клавиатуры:</strong></p>
+<ul>
+  <li><code>keyPressed()</code> — вызывается при нажатии клавиши</li>
+  <li><code>key</code> — содержит нажатый символ</li>
+  <li><code>keyCode</code> — код клавиши (UP, DOWN, LEFT, RIGHT)</li>
+  <li><code>key == ENTER</code> / <code>key == BACKSPACE</code> — проверка спецклавиш</li>
+</ul>
+<p><strong>Тригонометрия для визуализации:</strong></p>
+<ul>
+  <li><code>sin(angle)</code>, <code>cos(angle)</code> — синус и косинус угла в радианах</li>
+  <li><code>radians(degrees)</code> — переводит градусы в радианы</li>
+  <li><code>atan2(y, x)</code> — угол вектора от начала координат до точки (x, y)</li>
+</ul>
+<p><strong>Визуализация данных:</strong></p>
+<ul>
+  <li><code>beginShape()</code> / <code>vertex()</code> / <code>endShape()</code> — рисование произвольной ломаной</li>
+  <li><code>map(value, fromLow, fromHigh, toLow, toHigh)</code> — пересчёт диапазона</li>
+  <li><code>lerpColor(c1, c2, t)</code> — плавный переход между цветами</li>
+</ul>
+<p><strong>Таймеры и счётчики кадров:</strong></p>
+<ul>
+  <li><code>millis()</code> — миллисекунды с запуска программы</li>
+  <li><code>frameCount</code> — количество прошедших кадров</li>
+  <li><code>frameRate</code> — частота кадров (по умолчанию 60)</li>
+</ul>
+<h3>Пример 4: Отправка текстовых команд на Arduino</h3>
+<p><strong>Концепции Processing:</strong> строки, <code>split()</code>, <code>keyPressed()</code>, контроллеры мыши (<code>mousePressed()</code>), кастомные функции с отрисовкой кнопок.</p>
+<p>В отличие от одиночных символов, текстовые команды позволяют передавать сложные инструкции: <code>LED:1</code>, <code>SERVO:90</code>, <code>RGB:255,0,0</code>.</p>
+<p>#### Arduino-скетч (парсинг команд)</p>
+<pre><span class="lang-badge">cpp</span><code>void setup() {
+  Serial.begin(9600);
+  pinMode(13, OUTPUT);
+}
+
+void loop() {
+  if (Serial.available() &gt; 0) {
+    // Serial.readStringUntil('\n') читает строку до символа \n
+    String command = Serial.readStringUntil('\n');
+    command.trim();
+
+    if (command.startsWith("LED:")) {
+      int value = command.substring(4).toInt();
+      digitalWrite(13, value == 1 ? HIGH : LOW);
+      Serial.println("LED:OK");
+    }
+    else if (command.startsWith("SERVO:")) {
+      int angle = command.substring(6).toInt();
+      // myServo.write(angle); — при подключённом сервоприводе
+      Serial.println("SERVO:OK");
+    }
+    else if (command.startsWith("RGB:")) {
+      String rgbStr = command.substring(4);
+      int comma1 = rgbStr.indexOf(',');
+      int comma2 = rgbStr.indexOf(',', comma1 + 1);
+      int r = rgbStr.substring(0, comma1).toInt();
+      int g = rgbStr.substring(comma1 + 1, comma2).toInt();
+      int b = rgbStr.substring(comma2 + 1).toInt();
+      Serial.println("RGB:OK");
+    }
+    else {
+      Serial.println("ERROR:UNKNOWN_COMMAND");
+    }
+  }
+}</code></pre>
+<p><strong>Разбор Arduino-кода:</strong></p>
+<ul>
+  <li><code>Serial.readStringUntil('\n')</code> — читает данные из Serial buffer до символа новой строки.</li>
+  <li><code>command.startsWith("LED:")</code> — проверяет префикс.</li>
+  <li><code>command.substring(4).toInt()</code> — извлекает число из строки после 4 символа.</li>
+  <li><code>indexOf(',')</code> — находит позицию запятой для разбора RGB.</li>
+</ul>
+<p>#### Processing-скетч (панель управления)</p>
+<pre><span class="lang-badge">java</span><code>import processing.serial.*;
+
+Serial myPort;
+String sendValue = "";
+boolean inputMode = false;
+String receivedData = "";
+
+void setup() {
+  size(400, 370);
+  myPort = new Serial(this, "COM3", 9600);
+  surface.setTitle("Терминал команд");
+}
+
+void draw() {
+  background(240);
+
+  // Поле ввода
+  fill(255);
+  stroke(inputMode ? color(100, 150, 255) : color(180));
+  strokeWeight(2);
+  rect(20, 80, 360, 40, 5);
+
+  fill(0);
+  textAlign(LEFT, CENTER);
+  textSize(18);
+  // Мигающий курсор: каждые 15 кадров переключается видимость
+  String cursor = (inputMode &amp;&amp; frameCount % 30 &lt; 15) ? "|" : "";
+  text(sendValue + cursor, 30, 100);
+
+  fill(100);
+  textSize(14);
+  text("Введите команду и нажмите ENTER", 20, 50);
+  text("Примеры: LED:1, LED:0, SERVO:90, RGB:255,0,0", 20, 170);
+
+  // Кнопки-шорткаты (первый ряд — LED и SERVO)
+  drawShortcut(20, 200, 70, 30, "LED ON", "LED:1");
+  drawShortcut(100, 200, 70, 30, "LED OFF", "LED:0");
+  drawShortcut(180, 200, 90, 30, "SERVO 90", "SERVO:90");
+  drawShortcut(280, 200, 90, 30, "SERVO 0", "SERVO:0");
+
+  // Второй ряд — RGB цвета
+  drawShortcut(20, 250, 90, 30, "RGB RED", "RGB:255,0,0");
+  drawShortcut(120, 250, 90, 30, "RGB GREEN", "RGB:0,255,0");
+  drawShortcut(220, 250, 90, 30, "RGB BLUE", "RGB:0,0,255");
+
+  // Вывод ответа от Arduino
+  fill(50);
+  textAlign(LEFT, TOP);
+  textSize(12);
+  text("Ответ Arduino: " + receivedData, 20, 320);
+}
+
+void drawShortcut(int x, int y, int w, int h, String label, String cmd) {
+  boolean hover = mouseX &gt; x &amp;&amp; mouseX &lt; x + w &amp;&amp; mouseY &gt; y &amp;&amp; mouseY &lt; y + h;
+  fill(hover ? 200 : 220);
+  stroke(180);
+  rect(x, y, w, h, 4);
+  fill(0);
+  textAlign(CENTER, CENTER);
+  textSize(12);
+  text(label, x + w / 2, y + h / 2);
+}
+
+void mousePressed() {
+  inputMode = (mouseX &gt; 20 &amp;&amp; mouseX &lt; 380 &amp;&amp; mouseY &gt; 80 &amp;&amp; mouseY &lt; 120);
+
+  if (mouseY &gt;= 200 &amp;&amp; mouseY &lt;= 230) {
+    if (mouseX &gt; 20 &amp;&amp; mouseX &lt; 90)      sendCommand("LED:1");
+    else if (mouseX &gt; 100 &amp;&amp; mouseX &lt; 170) sendCommand("LED:0");
+    else if (mouseX &gt; 180 &amp;&amp; mouseX &lt; 270) sendCommand("SERVO:90");
+    else if (mouseX &gt; 280 &amp;&amp; mouseX &lt; 370) sendCommand("SERVO:0");
+  }
+  if (mouseY &gt;= 250 &amp;&amp; mouseY &lt;= 280) {
+    if (mouseX &gt; 20 &amp;&amp; mouseX &lt; 110)     sendCommand("RGB:255,0,0");
+    else if (mouseX &gt; 120 &amp;&amp; mouseX &lt; 210) sendCommand("RGB:0,255,0");
+    else if (mouseX &gt; 220 &amp;&amp; mouseX &lt; 310) sendCommand("RGB:0,0,255");
+  }
+}
+
+void keyPressed() {
+  if (inputMode) {
+    if (key == ENTER || key == RETURN) {
+      sendCommand(sendValue);
+      sendValue = "";
+    } else if (key == BACKSPACE &amp;&amp; sendValue.length() &gt; 0) {
+      sendValue = sendValue.substring(0, sendValue.length() - 1);
+    } else if (key != CODED) {
+      sendValue += key;
+    }
+  }
+}
+
+void sendCommand(String cmd) {
+  println("Отправка: " + cmd);
+  myPort.write(cmd + "\n");
+}
+
+void serialEvent(Serial p) {
+  receivedData = p.readString().trim();
+}</code></pre>
+<p><strong>Как это работает:</strong></p>
+<ol>
+  <li>Пользователь вводит текстовую команду (например, <code>LED:1</code>) и нажимает Enter.</li>
+  <li>Processing отправляет: <code>myPort.write("LED:1\n")</code>.</li>
+  <li>Arduino получает через <code>Serial.readStringUntil('\n')</code>, проверяет префикс и выполняет действие.</li>
+  <li>Arduino отправляет подтверждение (<code>LED:OK</code>), Processing отображает его.</li>
+  <li>Кнопки-шорткаты отправляют команды одним кликом.</li>
+</ol>
+<h3>Пример 5: Двусторонняя связь — опрос датчиков по запросу</h3>
+<p><strong>Концепции Processing:</strong> <code>keyPressed()</code>, кнопки мыши, <code>serialEvent()</code>, функция <code>split()</code>.</p>
+<p>Вместо непрерывного потока данных можно опрашивать датчики только когда нужно.</p>
+<p>#### Processing-скетч</p>
+<pre><span class="lang-badge">java</span><code>import processing.serial.*;
+
+Serial myPort;
+String sensorData = "Нажмите R для запроса";
+
+void setup() {
+  size(400, 300);
+  myPort = new Serial(this, "COM3", 9600);
+  surface.setTitle("Опрос датчиков");
+}
+
+void draw() {
+  background(240);
+  fill(0);
+  textSize(16);
+  text("Данные с Arduino:", 20, 50);
+  textSize(14);
+  text(sensorData, 20, 100);
+
+  // Кнопка запроса (прямоугольник + текст)
+  fill(100, 150, 255);
+  rect(20, 200, 120, 40, 5);
+  fill(255);
+  textAlign(CENTER, CENTER);
+  text("Запросить (R)", 80, 220);
+}
+
+void keyPressed() {
+  if (key == 'r' || key == 'R') {
+    myPort.write("READ\n");
+  }
+}
+
+void mousePressed() {
+  if (mouseX &gt; 20 &amp;&amp; mouseX &lt; 140 &amp;&amp; mouseY &gt; 200 &amp;&amp; mouseY &lt; 240) {
+    myPort.write("READ\n");
+  }
+}
+
+void serialEvent(Serial p) {
+  String data = p.readString().trim();
+  if (data != null &amp;&amp; data.length() &gt; 0) {
+    sensorData = data;
+    // При желании: String[] parts = split(data, " | ");
+    println("Получено: " + data);
+  }
+}</code></pre>
+<p>#### Arduino-скетч</p>
+<pre><span class="lang-badge">cpp</span><code>void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available() &gt; 0) {
+    String cmd = Serial.readStringUntil('\n');
+    cmd.trim();
+
+    if (cmd.equals("READ")) {
+      Serial.print("A0:");
+      Serial.print(analogRead(A0));
+      Serial.print(" | A1:");
+      Serial.print(analogRead(A1));
+      Serial.print(" | A2:");
+      Serial.println(analogRead(A2));
+    }
+  }
+}</code></pre>
+<p><strong>Как это работает:</strong></p>
+<ol>
+  <li>Пользователь нажимает R (или кнопку) — Processing отправляет <code>READ</code>.</li>
+  <li>Arduino получает команду, читает все аналоговые пины и отправляет одной строкой.</li>
+  <li>Processing принимает в <code>serialEvent()</code> и выводит на экран.</li>
+</ol>
+<h3>Пример 6: Ультразвуковой дальномер HC-SR04 + Визуализация</h3>
+<p><strong>Концепции Processing:</strong> <code>arc()</code>, <code>map()</code>, <code>colorMode(HSB)</code>, <code>translate()</code>, тригонометрия.</p>
+<p>HC-SR04 измеряет расстояние от 2 до 400 см методом эхолокации.</p>
+<p>#### Схема подключения:</p>
+<table>
+  <tr>
+    <th>HC-SR04</th>
+    <th>Arduino</th>
+  </tr>
+  <tr>
+    <td>VCC</td>
+    <td>5V</td>
+  </tr>
+  <tr>
+    <td>GND</td>
+    <td>GND</td>
+  </tr>
+  <tr>
+    <td>TRIG</td>
+    <td>9</td>
+  </tr>
+  <tr>
+    <td>ECHO</td>
+    <td>10</td>
+  </tr>
+</table>
+<p>#### Arduino-скетч</p>
+<pre><span class="lang-badge">cpp</span><code>const int TRIG = 9;
+const int ECHO = 10;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+}
+
+void loop() {
+  digitalWrite(TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+
+  long duration = pulseIn(ECHO, HIGH);
+  float distance = duration * 0.034 / 2;  // см
+
+  Serial.println(distance);
+  delay(200);
+}</code></pre>
+<p><strong>Разбор:</strong> <code>pulseIn(ECHO, HIGH)</code> замеряет длительность импульса в микросекундах. Скорость звука ~340 м/с = 0.034 см/мкс. Делим на 2, так как сигнал идёт туда и обратно.</p>
+<p>#### Processing-скетч (радар)</p>
+<pre><span class="lang-badge">java</span><code>import processing.serial.*;
+
+Serial myPort;
+float distance = 0;
+float angle = 0;
+
+void setup() {
+  size(500, 500);
+  myPort = new Serial(this, "COM3", 9600);
+  myPort.bufferUntil('\n');
+  colorMode(HSB, 360, 100, 100);
+}
+
+void draw() {
+  background(0);
+  translate(width / 2, height - 50);  // Начало координат — внизу по центру
+
+  // Шкалы радара (полукруги)
+  noFill();
+  stroke(60);
+  strokeWeight(1);
+  for (int r = 50; r &lt;= 200; r += 50) {
+    arc(0, 0, r * 2, r * 2, PI, TWO_PI);
+  }
+
+  // Точка обнаружения
+  if (distance &gt; 0) {
+    float d = constrain(map(distance, 0, 50, 0, 200), 0, 200);
+    float hue = map(distance, 5, 50, 0, 120);  // 0=красный, 120=зелёный
+    stroke(hue, 100, 100);
+    strokeWeight(8);
+
+    float px = cos(radians(angle - 90)) * d;
+    float py = sin(radians(angle - 90)) * d;
+    point(px, py);
+  }
+
+  // Вращающийся луч
+  stroke(0, 100, 100, 50);
+  strokeWeight(2);
+  line(0, 0, cos(radians(angle - 90)) * 200, sin(radians(angle - 90)) * 200);
+
+  angle = (angle + 2) % 360;
+
+  // Текст
+  resetMatrix();
+  fill(255);
+  textAlign(CENTER, TOP);
+  textSize(16);
+  text("Расстояние: " + nf(distance, 0, 1) + " см", width / 2, 20);
+}
+
+void serialEvent(Serial p) {
+  String data = p.readString().trim();
+  if (data != null &amp;&amp; data.length() &gt; 0) {
+    float val = float(data);
+    if (val &gt; 0) distance = val;
+  }
+}</code></pre>
+<p><strong>Разбор Processing-кода:</strong></p>
+<ul>
+  <li><code>translate(width/2, height-50)</code> — перенос начала координат для удобства отрисовки радара.</li>
+  <li><code>arc(0, 0, r<em>2, r</em>2, PI, TWO_PI)</code> — полукруг (верхняя половина).</li>
+  <li><code>cos(radians(angle)) * d</code> — вычисление координат точки под углом.</li>
+</ul>
+<h3>Пример 7: Датчик температуры DHT11 с графиком</h3>
+<p><strong>Концепции Processing:</strong> <code>rect()</code> для столбцов, <code>lerpColor()</code>, массивы-кольцевые буферы, <code>split()</code>.</p>
+<p>DHT11 — цифровой датчик температуры (0–50°C) и влажности (20–90%).</p>
+<p>#### Схема подключения:</p>
+<table>
+  <tr>
+    <th>DHT11</th>
+    <th>Arduino</th>
+  </tr>
+  <tr>
+    <td>VCC</td>
+    <td>5V</td>
+  </tr>
+  <tr>
+    <td>GND</td>
+    <td>GND</td>
+  </tr>
+  <tr>
+    <td>DATA</td>
+    <td>7</td>
+  </tr>
+</table>
+<p>Между DATA и VCC желателен резистор 10 кОм.</p>
+<p>#### Arduino-скетч</p>
+<pre><span class="lang-badge">cpp</span><code>#include &lt;DHT.h&gt;
+
+#define DHTPIN 7
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  float temperature = dht.readTemperature();
+  float humidity = dht.readHumidity();
+
+  if (!isnan(temperature) &amp;&amp; !isnan(humidity)) {
+    Serial.print(temperature);
+    Serial.print(" ");
+    Serial.println(humidity);
+  }
+
+  delay(2000);
+}</code></pre>
+<p><strong>Разбор:</strong> <code>dht.readTemperature()</code> возвращает температуру в °C, <code>dht.readHumidity()</code> — влажность в %. <code>isnan()</code> проверяет, что значения корректны.</p>
+<p>#### Processing-скетч (график температуры и влажности)</p>
+<pre><span class="lang-badge">java</span><code>import processing.serial.*;
+
+Serial myPort;
+float temperature = 0;
+float humidity = 0;
+
+// Кольцевой буфер на 60 значений
+float[] tempHistory = new float[60];
+float[] humHistory = new float[60];
+int historyIndex = 0;
+
+void setup() {
+  size(600, 400);
+  myPort = new Serial(this, "COM3", 9600);
+  myPort.bufferUntil('\n');
+  surface.setTitle("Монитор температуры и влажности");
+}
+
+void draw() {
+  background(240);
+
+  // Текущие значения (левый столбец)
+  textSize(14);
+  fill(0);
+  text("Температура", 30, 30);
+  textSize(36);
+  fill(lerpColor(color(0, 100, 255), color(255, 50, 0),
+       constrain(temperature / 40, 0, 1)));
+  text(nf(temperature, 0, 1) + "°C", 30, 80);
+
+  textSize(14);
+  fill(0);
+  text("Влажность", 30, 130);
+  textSize(36);
+  fill(0, 100, 200);
+  text(nf(humidity, 0, 1) + "%", 30, 180);
+
+  // График (правый столбец)
+  int gx = 200, gy = 30, gw = 370, gh = 340;
+  fill(255);
+  stroke(200);
+  rect(gx, gy, gw, gh);
+
+  // Температура — красная линия
+  stroke(255, 50, 0);
+  strokeWeight(2);
+  noFill();
+  beginShape();
+  for (int i = 0; i &lt; tempHistory.length; i++) {
+    int idx = (historyIndex + i) % tempHistory.length;
+    float x = map(i, 0, tempHistory.length - 1, gx, gx + gw);
+    float y = map(tempHistory[idx], 0, 50, gy + gh, gy);
+    vertex(x, y);
+  }
+  endShape();
+
+  // Влажность — синяя линия
+  stroke(0, 100, 200);
+  beginShape();
+  for (int i = 0; i &lt; humHistory.length; i++) {
+    int idx = (historyIndex + i) % humHistory.length;
+    float x = map(i, 0, humHistory.length - 1, gx, gx + gw);
+    float y = map(humHistory[idx], 0, 100, gy + gh, gy);
+    vertex(x, y);
+  }
+  endShape();
+
+  // Легенда
+  noStroke();
+  fill(255, 50, 0);
+  textSize(12);
+  textAlign(LEFT, TOP);
+  text("Температура", gx + 10, gy + 10);
+  fill(0, 100, 200);
+  text("Влажность", gx + 10, gy + 30);
+}
+
+void serialEvent(Serial p) {
+  String data = p.readString().trim();
+  if (data != null &amp;&amp; data.length() &gt; 0) {
+    // split() разбивает строку на две части: "25.3 60.1"
+    String[] parts = split(data, ' ');
+    if (parts.length &gt;= 2) {
+      temperature = float(parts[0]);
+      humidity = float(parts[1]);
+
+      // Кольцевой буфер: сохраняем и сдвигаем индекс
+      tempHistory[historyIndex] = temperature;
+      humHistory[historyIndex] = humidity;
+      historyIndex = (historyIndex + 1) % tempHistory.length;
+    }
+  }
+}</code></pre>
+<p><strong>Разбор Processing-кода:</strong></p>
+<ul>
+  <li><code>split(data, ' ')</code> — разбивает строку <code>"25.3 60.1"</code> на массив <code>["25.3", "60.1"]</code>.</li>
+  <li><code>lerpColor(blue, red, t)</code> — плавный переход от синего к красному в зависимости от температуры.</li>
+  <li>Кольцевой буфер: последние 60 значений хранятся в массиве; <code>historyIndex</code> циклически перезаписывает старые данные.</li>
+  <li><code>beginShape()</code> / <code>vertex()</code> / <code>endShape()</code> строит линию графика по точкам.</li>
+</ul>
+<p>#### Сводка методов передачи данных</p>
+<table>
+  <tr>
+    <th>Метод</th>
+    <th>Пример команды</th>
+    <th>Когда использовать</th>
+  </tr>
+  <tr>
+    <td>Одиночный символ</td>
+    <td><code>'1'</code> / <code>'0'</code></td>
+    <td>Простое управление (вкл/выкл)</td>
+  </tr>
+  <tr>
+    <td>Число</td>
+    <td><code>90\n</code></td>
+    <td>Одно числовое значение</td>
+  </tr>
+  <tr>
+    <td>Текстовая команда</td>
+    <td><code>LED:1\n</code></td>
+    <td>Несколько разных устройств</td>
+  </tr>
+  <tr>
+    <td>Протокол с подтверждением</td>
+    <td><code>LED:1</code> → <code>LED:OK</code></td>
+    <td>Критичные команды, нужна обратная связь</td>
+  </tr>
+  <tr>
+    <td>Пакетный опрос</td>
+    <td><code>READ</code> → <code>"A0:512 A1:234"</code></td>
+    <td>Получение группы данных по запросу</td>
+  </tr>
+  <tr>
+    <td>Два числа через пробел</td>
+    <td><code>"25.3 60.1"</code></td>
+    <td>Передача пары связанных значений</td>
+  </tr>
+</table>
+<details>
+<summary>Упражнения к разделу 21</summary>
+<p>1. <strong>Практика.</strong> Модифицируйте Пример 4: добавьте кнопку «Очистить» и отображение истории отправленных команд (последние 10).</p>
+<p>2. <strong>Практика.</strong> В Примере 6 (радар) сохраняйте последние 30 измерений и рисуйте их все, создавая карту препятствий. Используйте массив для хранения истории.</p>
+<p>3. <strong>Практика.</strong> В Примере 7 (DHT11) добавьте визуальный индикатор: если температура выше 30°C — фон красный, если ниже 10°C — синий. Используйте класс из главы 16.</p>
+</details>
+<h2 id="22-итоговый-проект-paint">22. Итоговый проект: Paint</h2>
+<p>Закрепим изученное — создадим полноценное приложение-рисовалку.</p>
+<pre><span class="lang-badge">java</span><code>int brushColor = color(0);
+int brushSize = 5;
+boolean isDrawing = false;
+boolean eraserMode = false;
+
+void setup() {
+  size(800, 600);
+  background(255);
+}
+
+void draw() {
+  if (isDrawing) {
+    if (eraserMode) {
+      stroke(255);
+    } else {
+      stroke(brushColor);
+    }
+    strokeWeight(brushSize);
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+
+  drawPalette();
+}
+
+void mousePressed() {
+  if (mouseY &lt; height - 50) {
+    isDrawing = true;
+  } else {
+    if (mouseX &lt; width / 5) {
+      brushColor = color(255, 0, 0);
+    } else if (mouseX &lt; 2 * width / 5) {
+      brushColor = color(0, 255, 0);
+    } else if (mouseX &lt; 3 * width / 5) {
+      brushColor = color(0, 0, 255);
+    } else if (mouseX &lt; 4 * width / 5) {
+      brushColor = color(255, 255, 0);
+    } else {
+      brushColor = color(0);
+    }
+  }
+}
+
+void mouseReleased() {
+  isDrawing = false;
+}
+
+void drawPalette() {
+  fill(255);
+  rect(0, height - 50, width, 50);
+
+  fill(255, 0, 0);
+  rect(0, height - 50, width / 5, 50);
+
+  fill(0, 255, 0);
+  rect(width / 5, height - 50, width / 5, 50);
+
+  fill(0, 0, 255);
+  rect(2 * width / 5, height - 50, width / 5, 50);
+
+  fill(255, 255, 0);
+  rect(3 * width / 5, height - 50, width / 5, 50);
+
+  fill(0);
+  rect(4 * width / 5, height - 50, width / 5, 50);
+
+  fill(brushColor);
+  ellipse(width - 50, height - 25, brushSize * 2, brushSize * 2);
+
+  fill(200);
+  rect(width - 100, height - 50, 100, 50);
+  fill(0);
+  textAlign(CENTER, CENTER);
+  text("Ластик", width - 50, height - 25);
+}
+
+void mouseWheel(MouseEvent event) {
+  brushSize += event.getCount();
+  brushSize = constrain(brushSize, 1, 50);
+}
+
+void mouseClicked() {
+  if (mouseX &gt; width - 100 &amp;&amp; mouseX &lt; width &amp;&amp; mouseY &gt; height - 50 &amp;&amp; mouseY &lt; height) {
+    eraserMode = !eraserMode;
+  }
+}</code></pre>
+<h3>Разбор ключевых моментов:</h3>
+<ol>
+  <li><strong><code>setup()</code></strong> — задаёт размер окна и белый фон.</li>
+  <li><strong><code>draw()</code></strong> — проверяет, рисуем ли мы (<code>isDrawing</code>), и проводит линию от предыдущей позиции к текущей.</li>
+  <li><strong>Обработка мыши</strong> — <code>mousePressed()</code> переключает цвет или включает рисование; <code>mouseWheel()</code> меняет размер кисти; <code>mouseClicked()</code> включает ластик.</li>
+  <li><strong>Палитра</strong> — 5 цветных кнопок внизу экрана.</li>
+  <li><strong>Ластик</strong> — переключает цвет обводки на белый.</li>
+</ol>
+<details>
+<summary>Упражнения к разделу 22</summary>
+<p>1. <strong>Модификация.</strong> Добавьте в Paint возможность сохранять рисунок в файл при нажатии клавиши <code>S</code> (используйте <code>saveFrame("sketch.png")</code>).</p>
+<p>2. <strong>Модификация.</strong> Добавьте в палитру кнопку выбора произвольного цвета через стандартный пикер (используйте библиотеку <code>ColorPicker</code> или просто добавьте больше предустановленных цветов).</p>
+<p>3. <strong>Модификация.</strong> Добавьте отображение текущих координат мыши в правом верхнем углу экрана.</p>
+</details>
+<h2 id="23-заключение">23. Заключение</h2>
+<p>Processing — мощный и доступный инструмент для создания визуальных проектов. С помощью простого синтаксиса и богатого набора встроенных функций вы можете быстро реализовать свои идеи — от простых рисунков до сложной анимации и интерактивных приложений.</p>
+<h3>Что дальше?</h3>
+<ul>
+  <li><strong>Официальная документация</strong>: <a href="https://processing.org/reference/">processing.org/reference/</a></li>
+  <li><strong>Библиотеки</strong>: Processing поддерживает множество библиотек — для работы со звуком, видео, компьютерным зрением, физикой и т.д.</li>
+  <li><strong>Сообщество</strong>: тысячи примеров на <a href="https://openprocessing.org/">openprocessing.org</a> и <a href="https://processing.org/examples/">processing.org/examples/</a></li>
+</ul>
+<p>Помните: лучший способ научиться программировать — практиковаться. Экспериментируйте, модифицируйте примеры, придумывайте свои проекты!</p>
+
+</main>
+</body>
+</html>
